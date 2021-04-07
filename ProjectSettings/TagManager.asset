@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Platform
+  - PlatformBorder
+  - Dron
+  - EnemyBase
+  - Enemy
+  - Wall
+  - Connection
+  - ConBorder
+  - RoadBorder
+  - Electricity
+  - TerrainObj
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: TerrainTiles
+    uniqueID: 3775678657
+    locked: 0
+  - name: Range
+    uniqueID: 3800983751
+    locked: 0
+  - name: TerrainDown
+    uniqueID: 2230892573
+    locked: 0
+  - name: TerrainMidle
+    uniqueID: 2492961299
+    locked: 0
+  - name: Platforms
+    uniqueID: 2689407933
+    locked: 0
+  - name: APElements
+    uniqueID: 4132863105
+    locked: 0
+  - name: Roads
+    uniqueID: 1508082249
+    locked: 0
+  - name: Res
+    uniqueID: 2613445171
+    locked: 0
+  - name: TerrainUp
+    uniqueID: 3434824777
+    locked: 0
+  - name: Drons
+    uniqueID: 3539129231
+    locked: 0
+  - name: EnemyUp
+    uniqueID: 3889114821
+    locked: 0
+  - name: Cursor
+    uniqueID: 2426277539
+    locked: 0
+  - name: Canvas
+    uniqueID: 3264009877
+    locked: 0
