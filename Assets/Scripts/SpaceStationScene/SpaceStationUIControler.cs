@@ -8,10 +8,10 @@ using System;
 public class SpaceStationUIControler : MonoBehaviour
 {
     [Header("Title")]
-    [SerializeField] private RectTransform TitleRT = null;
+    //[SerializeField] private RectTransform TitleRT = null;
     [SerializeField] private Text VersionText = null;
-    private Vector3 defaultTitlePos;
-    private Vector3 enlargedTitlePos;
+    //private Vector3 defaultTitlePos;
+    //private Vector3 enlargedTitlePos;
 
     [Header("Planet")]
     public float approachTime = 0.5f;
@@ -69,8 +69,8 @@ public class SpaceStationUIControler : MonoBehaviour
         if (instance != null) { return; }
         instance = this;
 
-        defaultTitlePos = TitleRT.anchoredPosition;
-        enlargedTitlePos = defaultTitlePos; enlargedTitlePos.y = 500f;
+        //defaultTitlePos = TitleRT.anchoredPosition;
+        //enlargedTitlePos = defaultTitlePos; enlargedTitlePos.y = 500f;
     }
 
     private void Start()
@@ -194,7 +194,7 @@ public class SpaceStationUIControler : MonoBehaviour
         mainCamera.transform.DOLocalMove(cameraDefPos, approachTime).SetUpdate(true);
         blurCamera.DOOrthoSize(cameraDefSize, approachTime).SetUpdate(true);
 
-        TitleRT.DOAnchorPos(defaultTitlePos, approachTime).SetUpdate(true);
+        //TitleRT.DOAnchorPos(defaultTitlePos, approachTime).SetUpdate(true);
 
         selectColonyImage.color = colonyDeselectColor;
         Transform textTrans = selectColonyImage.transform.Find("BigText");
@@ -229,7 +229,7 @@ public class SpaceStationUIControler : MonoBehaviour
         mainCamera.transform.DOLocalMove(cameraPos, approachTime).SetUpdate(true);
         blurCamera.DOOrthoSize(cameraShortSize, approachTime).SetUpdate(true);
 
-        TitleRT.DOAnchorPos(enlargedTitlePos, approachTime).SetUpdate(true);
+        //TitleRT.DOAnchorPos(enlargedTitlePos, approachTime).SetUpdate(true);
 
         foreach (Transform trans in colonyParent)
         {
