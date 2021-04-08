@@ -8,10 +8,11 @@ public static class GameEventControler
     {
         None=0,
         P1_1=1,  P1_2, P1_3, P1_4, P1_5, P1_6, P1_7, P1_8, P1_9, P1_10, P1_11, P1_12, P1_13, P1_3_SkipTotorial=18,
+        P2_1=21, P2_2, P2_3, P2_4, P2_5, P2_6,
 
-        NoMoreTask=21,
+        NoMoreTask=41,
 
-        T1=1000001, T2, T3,
+        T1=1000001, T2, T3, T4, T5, T6
     }
 
     public static List<GameEvent> activeGameEvents = new List<GameEvent>();
@@ -30,6 +31,9 @@ public static class GameEventControler
             case GameEvent.T1: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
             case GameEvent.T2: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
             case GameEvent.T3: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
+            case GameEvent.T4: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
+            case GameEvent.T5: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
+            case GameEvent.T6: newTask.InitDef(gameEvent, false).SetDefConfirmButton(); break;
 
             // P1
             case GameEvent.P1_1: newTask.InitDef(gameEvent).SetDefConfirmButton(); break;
@@ -44,7 +48,7 @@ public static class GameEventControler
                 StartEvent(GameEvent.T1);
                 newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.CopperOreCtm, 10, true);
                 break;
-            case GameEvent.P1_9: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.Wood, 5, true); break;
+            case GameEvent.P1_9: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.Wood, 4, true); break;
             case GameEvent.P1_10: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.CopperPlate, 3, true); break;
             case GameEvent.P1_11: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.StoneOre, 20, true); break;
             case GameEvent.P1_12:
@@ -55,6 +59,14 @@ public static class GameEventControler
                 StartEvent(GameEvent.T3);
                 newTask.InitDef(gameEvent, false).AddSubTask_HaveStructures(Obj.BasicCrafter, 1, true);
                 break;
+
+            // P2
+            case GameEvent.P2_1: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.BasicCrafter, Res.Wood, 5, true); break;
+            case GameEvent.P2_2: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.Planks, 2, true); break;
+            case GameEvent.P2_3: newTask.InitDef(gameEvent).AddSubTask_HaveStructures(Obj.Warehouse1, 1, true); break;
+            case GameEvent.P2_4: newTask.InitDef(gameEvent).AddSubTask_HaveStructures(Obj.Connection1, 1, true); break;
+            case GameEvent.P2_5: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Warehouse1, Res.Wood, 10, true); break;
+            case GameEvent.P2_6: newTask.InitDef(gameEvent, false).AddSubTask_HaveStructures(Obj.Sapling, 5, true); break;
 
             // No more tasks
             case GameEvent.NoMoreTask: newTask.InitDef(gameEvent, false); break;
@@ -98,6 +110,11 @@ public static class GameEventControler
                 StartEvent(GameEvent.P1_4);
                 break;
             case GameEvent.P1_13:
+                StartEvent(GameEvent.P2_1);
+                break;
+
+            // P2
+            case GameEvent.P2_6:
                 StartEvent(GameEvent.NoMoreTask);
                 break;
         }
