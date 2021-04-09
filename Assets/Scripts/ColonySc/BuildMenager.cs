@@ -305,7 +305,7 @@ public class BuildMenager : MonoBehaviour
         Vector2 relatve = EndRoadPos - StartRoadPos;
         float RoadLenght = (relatve.magnitude - 1) * 2;
         int multiplayer = (int)(RoadLenght * multiPM) + 1;
-        Debug.Log(multiPM + "*" + RoadLenght + "=" + multiplayer);
+        //Debug.Log(multiPM + "*" + RoadLenght + "=" + multiplayer);
         return multiplayer;
     }
     private void SetSquaresUnderConnection(int sx, int sy, int ex, int ey, bool add)

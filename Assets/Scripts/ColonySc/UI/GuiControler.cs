@@ -899,19 +899,21 @@ public class GuiControler : MonoBehaviour
     }
     public void ShowConnectionGui(Obj connection, bool toggleIsOn, Vector2 startPos, Vector2 endPos)
     {
+        CloseNowOpenGui();
+        ShowPanel(ConnectionPanelT);
+        SetOpenPanelsYPos();
+
         useObj = connection;
         useX = (int)endPos.x;
         useY = (int)endPos.y;
         startPointRoad = startPos;
 
-        CloseNowOpenGui();
-        ShowPanel(ConnectionPanelT);
-        SetOpenPanelsYPos();
+        ConRemovingPanel.SetActive(false);
 
         RemoveConnectionButton.SetActive(false);
         ActiveRoadToggle.SetActive(false);
         PrioritySetings.SetActive(false);
-
+        
         Text platformName = ConnectionPanelT.GetComponentInChildren<Text>();
 
         RectTransform rt = ConnectionPanelT.GetComponent<RectTransform>();
@@ -959,8 +961,17 @@ public class GuiControler : MonoBehaviour
         ConRemovingPanel.SetActive(!bv);
 
         RemoveConnectionButton.SetActive(bv);
-        ActiveRoadToggle.SetActive(bv);
-        PrioritySetings.SetActive(bv);
+        if (bv && (useObj == Obj.ConUnderConstruction || useObj == Obj.ConUnderDemolition))
+        {
+            ActiveRoadToggle.SetActive(false);
+            PrioritySetings.SetActive(false);
+        }
+        else
+        {
+            ActiveRoadToggle.SetActive(bv);
+            PrioritySetings.SetActive(bv);
+        }
+        
 
         RectTransform rt = ConnectionPanelT.GetComponent<RectTransform>();
         if (bv==false)
