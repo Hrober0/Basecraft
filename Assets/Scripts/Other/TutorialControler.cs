@@ -24,12 +24,17 @@ public class TutorialControler : MonoBehaviour
         panelTrans.localScale = Vector2.zero;
         panelTrans.DOScale(Vector2.one, 0.4f).SetEase(Ease.OutExpo).SetUpdate(true);
         panelTrans.GetComponent<CanvasGroup>().DOFade(1f, 0.4f).SetEase(Ease.OutExpo).SetUpdate(true);
+
+        SetPage(selectedPage);
     }
 
     public void Close()
     {
         panelTrans.DOScale(Vector2.zero, 0.4f).SetEase(Ease.OutExpo).SetUpdate(true);
         panelTrans.GetComponent<CanvasGroup>().DOFade(0f, 0.4f).SetEase(Ease.OutExpo).SetUpdate(true).OnComplete(() => { gameObject.SetActive(false); });
+
+        LeftPanel.instance.CloseNowOpenPanel();
+        if (GuiControler.instance != null) GuiControler.instance.CloseNowOpenGui();
     }
 
     public void NextPage()
@@ -84,12 +89,16 @@ public class TutorialControler : MonoBehaviour
                 break;
             case 2:
                 // drone station
-                SetPos(-300f, 60f);
+                SetPos(-400f, 60f);
                 Vector2Int mPos = WorldMenager.instance.mapSize / 2;
                 Vector2Int dSPos = WorldMenager.instance.FindTheNearestObject(Obj.DroneStation, mPos.x, mPos.y, mPos.x);
                 if (dSPos.x < 0) break;
-                dSPos.x -= 5;
-                Vector2 pos = dSPos * 10;
+                int x = dSPos.x;
+                int y = dSPos.y;
+                Transform dSTrans = WorldMenager.instance.GetTransforOfObj(x, y);
+                PlatformBehavior dSPBSc = dSTrans.GetComponent<PlatformBehavior>();
+                GuiControler.instance.ShowPlatformOpction(Obj.DroneStation, WorldMenager.instance.GetTerrainTile(x, y), x, y, dSPBSc);
+                Vector2 pos = dSPos * 10 - Vector2.right * 20;
                 CameraControler.instance.SetCameraPos(pos);
                 break;
             case 3:
@@ -122,6 +131,6 @@ public class TutorialControler : MonoBehaviour
 
     private void SetPos(float x, float y)
     {
-        panelTrans.GetComponent<RectTransform>().DOAnchorPos(new Vector2(x, y), 1f).SetUpdate(true);
+        panelTrans.GetComponent<RectTransform>().DOAnchorPos(new Vector2(x, y), 0.5f).SetUpdate(true);
     }
 }

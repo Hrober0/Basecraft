@@ -12,7 +12,7 @@ public static class GameEventControler
 
         NoMoreTask=41,
 
-        T1=1000001, T2, T3, T4, T5, T6
+        T1=1000001, T2, T3, T4, T5, T6, T7
     }
 
     public static List<GameEvent> activeGameEvents = new List<GameEvent>();
@@ -44,26 +44,19 @@ public static class GameEventControler
             case GameEvent.P1_5: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.StoneOre, 10, true).AddSubTask_HaveStructures(Obj.Smelter, 1, true); break;
             case GameEvent.P1_6: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.CopperOreCtm, 10, true); break;
             case GameEvent.P1_7: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.Wood, 5, true); break;
-            case GameEvent.P1_8:
-                StartEvent(GameEvent.T1);
-                newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.CopperOreCtm, 10, true);
-                break;
-            case GameEvent.P1_9: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.Wood, 4, true); break;
+            case GameEvent.P1_8: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.CopperOreCtm, 10, true); break;
+            case GameEvent.P1_9: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Smelter, Res.Wood, 5, true); break;
             case GameEvent.P1_10: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.CopperPlate, 3, true); break;
             case GameEvent.P1_11: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.StoneOre, 20, true); break;
-            case GameEvent.P1_12:
-                StartEvent(GameEvent.T2);
-                newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.StoneBrick, 5, true);
-                break;
-            case GameEvent.P1_13:
-                StartEvent(GameEvent.T3);
-                newTask.InitDef(gameEvent, false).AddSubTask_HaveStructures(Obj.BasicCrafter, 1, true);
-                break;
+            case GameEvent.P1_12: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.StoneBrick, 5, true); break;
+            case GameEvent.P1_13: newTask.InitDef(gameEvent, false).AddSubTask_HaveStructures(Obj.BasicCrafter, 1, true);
+                SpaceBaseMainSc.instance.UpdateTechs(); break;
 
             // P2
             case GameEvent.P2_1: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.BasicCrafter, Res.Wood, 5, true); break;
             case GameEvent.P2_2: newTask.InitDef(gameEvent).AddSubTask_ProduceItems(Res.Planks, 2, true); break;
-            case GameEvent.P2_3: newTask.InitDef(gameEvent).AddSubTask_HaveStructures(Obj.Warehouse1, 1, true); break;
+            case GameEvent.P2_3: newTask.InitDef(gameEvent).AddSubTask_HaveStructures(Obj.Warehouse1, 1, true);
+                SpaceBaseMainSc.instance.UpdateTechs(); break;
             case GameEvent.P2_4: newTask.InitDef(gameEvent).AddSubTask_HaveStructures(Obj.Connection1, 1, true); break;
             case GameEvent.P2_5: newTask.InitDef(gameEvent).AddSubTask_HoldItemsInObjects(Obj.Warehouse1, Res.Wood, 10, true); break;
             case GameEvent.P2_6: newTask.InitDef(gameEvent, false).AddSubTask_HaveStructures(Obj.Sapling, 5, true); break;
@@ -109,14 +102,17 @@ public static class GameEventControler
                 SpaceBaseMainSc.instance.UpdateTechs();
                 StartEvent(GameEvent.P1_4);
                 break;
-            case GameEvent.P1_13:
-                StartEvent(GameEvent.P2_1);
-                break;
+            case GameEvent.P1_7: StartEvent(GameEvent.T1); break;
+            case GameEvent.P1_11: StartEvent(GameEvent.T2); break;
+            case GameEvent.P1_12: StartEvent(GameEvent.T3); break;
+            case GameEvent.P1_13: StartEvent(GameEvent.P2_1); break;
 
             // P2
-            case GameEvent.P2_6:
-                StartEvent(GameEvent.NoMoreTask);
-                break;
+            case GameEvent.P2_3: StartEvent(GameEvent.T4); break;
+            case GameEvent.T4: StartEvent(GameEvent.T5); break;
+            case GameEvent.P2_4: StartEvent(GameEvent.T6); break;
+            case GameEvent.T6: StartEvent(GameEvent.T7); break;
+            case GameEvent.P2_6: StartEvent(GameEvent.NoMoreTask); break;
         }
     }
 

@@ -22,7 +22,7 @@ public class BuildPanel : MonoBehaviour
 
     [Header("Veribals")]
     [SerializeField] private Sprite CancelIcon = null;
-    [SerializeField] private int selectedBuildPage = 4;
+    [SerializeField] private int selectedBuildPage = 1;
     private Transform selectedBuildPageT = null;
     private Transform selectedBuildButtonT = null;
     public Obj selectedObj = Obj.None;
@@ -51,7 +51,7 @@ public class BuildPanel : MonoBehaviour
         MilitaryButtons.SetActive(false);
         EnergyButtons.SetActive(false);
         OtherButtons.SetActive(false);
-        ChangeBuildPage(selectedBuildPage);
+        ChangeBuildPage(1);
 
         BuildObjButtonBorder.SetActive(false);
         BuildingPointer.SetActive(false);
@@ -96,9 +96,9 @@ public class BuildPanel : MonoBehaviour
             //disacitve buttons to totrial
             if (SpaceBaseMainSc.instance.skippedTotorial == false)
             {
-                //if (obj == Obj.Smelter && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P1_13) == false) { continue; }
-                //if (obj == Obj.BasicCrafter && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P2_8) == false) { continue; }
-                //if (obj == Obj.Launchpad && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P3_3) == false) { continue; }
+                if (obj == Obj.BasicCrafter && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P1_12) == false) { continue; }
+                if (obj == Obj.Warehouse1 && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P2_2) == false) { continue; }
+                if (obj == Obj.Launchpad && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.NoMoreTask) == false) { continue; }
             }
 
             Transform buttonParent = null;

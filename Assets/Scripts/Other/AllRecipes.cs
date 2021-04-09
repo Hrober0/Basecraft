@@ -874,7 +874,7 @@ public class AllRecipes : MonoBehaviour
         };
 
         //Fuel list
-        fuelList = new List<Fuel> { new Fuel(Res.Wood, 100), new Fuel(Res.Coal, 250) };
+        fuelList = new List<Fuel> { new Fuel(Res.Wood, 200), new Fuel(Res.Coal, 500) };
     }
 
     public BuildingRecipe GetBuildRecipe(Obj _obj)
