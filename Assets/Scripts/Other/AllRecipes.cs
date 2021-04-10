@@ -163,6 +163,12 @@ public class AllRecipes : MonoBehaviour
         basicCrafterRecipes = new List<CraftRecipe>
         {
             new CraftRecipe(
+                new List<ItemRAQ> { new ItemRAQ(Res.Wood, 3) },
+                new List<ItemRAQ> { new ItemRAQ(Res.CompressedWood, 1) },
+                10f,
+                Technologies.CompressedWood
+            ),
+            new CraftRecipe(
                 new List<ItemRAQ> { new ItemRAQ(Res.Wood, 1) },
                 new List<ItemRAQ> { new ItemRAQ(Res.Planks, 2) },
                 4f,
@@ -228,6 +234,12 @@ public class AllRecipes : MonoBehaviour
         crafterRecipes = new List<CraftRecipe>
         {
             new CraftRecipe(
+                new List<ItemRAQ> { new ItemRAQ(Res.Wood, 3) },
+                new List<ItemRAQ> { new ItemRAQ(Res.CompressedWood, 1) },
+                5f,
+                Technologies.CompressedWood
+            ),
+            new CraftRecipe(
                 new List<ItemRAQ> { new ItemRAQ(Res.Wood, 1) },
                 new List<ItemRAQ> { new ItemRAQ(Res.Planks, 2) },
                 2f,
@@ -244,6 +256,12 @@ public class AllRecipes : MonoBehaviour
                 new List<ItemRAQ> { new ItemRAQ(Res.IronRod, 1) },
                 3f,
                 Technologies.IronRod
+            ),
+            new CraftRecipe(
+                new List<ItemRAQ> { new ItemRAQ(Res.IronOre, 2), new ItemRAQ(Res.CopperCable, 2) },
+                new List<ItemRAQ> { new ItemRAQ(Res.Magnet, 1) },
+                6f,
+                Technologies.Magnet
             ),
             new CraftRecipe(
                 new List<ItemRAQ> { new ItemRAQ(Res.Wood, 2), new ItemRAQ(Res.StoneOre, 1) },
@@ -341,10 +359,16 @@ public class AllRecipes : MonoBehaviour
         smelterRecipes = new List<CraftRecipe>
         {
             new CraftRecipe(
-                new List<ItemRAQ> { new ItemRAQ(Res.Wood, 1) },
+                new List<ItemRAQ> { new ItemRAQ(Res.Wood, 2) },
                 new List<ItemRAQ> { new ItemRAQ(Res.Coal, 1) },
                 8f,
-                Technologies.Carbon
+                Technologies.CoalSmelting
+            ),
+            new CraftRecipe(
+                new List<ItemRAQ> { new ItemRAQ(Res.CompressedWood, 1) },
+                new List<ItemRAQ> { new ItemRAQ(Res.Coal, 2) },
+                8f,
+                Technologies.CoalSmelting2
             ),
             new CraftRecipe(
                 new List<ItemRAQ> { new ItemRAQ(Res.Coal, 3) },
@@ -570,7 +594,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile },
                 new List<Res>{ Res.Wood },
                 Technologies.Woodcuter,
-                "-Range: 4 fields\n-Items from one tree:\n saplings 1-2, wood 2-4\n-Cutting time: 15s\n-Health: " + GetMaxHelthOfObj(Obj.Woodcuter)
+                "-Power required: 2kW/s\n-Range: 4 fields\n-Items from one tree:\n saplings 1-2, wood 2-4\n-Cutting time: 15s\n-Health: " + GetMaxHelthOfObj(Obj.Woodcuter)
             ),
             new BuildingRecipe(
                 Obj.Planter,
@@ -578,7 +602,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile },
                 new List<Res>{},
                 Technologies.Planter,
-                "-Range: 3 fields\n-Requirement: saplings\n-Planting time: 12s\n-Health: " + GetMaxHelthOfObj(Obj.Planter)
+                "-Power required: 1kW/s\n-Range: 3 fields\n-Requirement: saplings\n-Planting time: 12s\n-Health: " + GetMaxHelthOfObj(Obj.Planter)
             ),
             new BuildingRecipe(
                 Obj.BasicCrafter,
@@ -586,7 +610,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{ Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.Quarrel, Res.GunMagazine },
                 Technologies.BasicCrafter,
-                "-Health: " + GetMaxHelthOfObj(Obj.BasicCrafter)
+                "Requirement: fuel\n-Health: " + GetMaxHelthOfObj(Obj.BasicCrafter)
             ),
             new BuildingRecipe(
                 Obj.Quarry,
@@ -594,7 +618,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{ Res.StoneOre, Res.IronOre, Res.CopperOreCtm },
                 Technologies.Quarry,
-                "-Mining time: 6s\n-Health: " + GetMaxHelthOfObj(Obj.Quarry)
+                "-Power required: 2kW/s\n-Mining time: 6s\n-Health: " + GetMaxHelthOfObj(Obj.Quarry)
             ),
 
             new BuildingRecipe(
@@ -603,7 +627,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{ Res.BagSand, Res.CopperOre, Res.Biomass },
                 Technologies.Pulverizer,
-                "-Health: " + GetMaxHelthOfObj(Obj.Pulverizer)
+                "-Power required: 4kW/s\n-Health: " + GetMaxHelthOfObj(Obj.Pulverizer)
             ),
             new BuildingRecipe(
                 Obj.Farm,
@@ -611,7 +635,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile },
                 new List<Res>{ Res.Grape, Res.Flax, Res.RubberPlant },
                 Technologies.Farm,
-                "Requirement: bottle of water\n-Health: " + GetMaxHelthOfObj(Obj.Farm)
+                "-Power required: 1kW/s\nRequirement: bottle of water\n-Health: " + GetMaxHelthOfObj(Obj.Farm)
             ),
             new BuildingRecipe(
                 Obj.Pump,
@@ -619,7 +643,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.WaterSource, Obj.OilSource },
                 new List<Res>{ Res.BottleWater, Res.BottleOil },
                 Technologies.Pump,
-                "-Health: " + GetMaxHelthOfObj(Obj.Pump)
+                "-Power required: 1kW/s\n-Health: " + GetMaxHelthOfObj(Obj.Pump)
             ),
             new BuildingRecipe(
                 Obj.Crafter,
@@ -627,7 +651,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{ Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.PlasticCircuit, Res.Quarrel, Res.Quarrel2, Res.GunMagazine, Res.GunMagazine2, Res.Rocket, Res.Drone },
                 Technologies.Crafter,
-                "-Power required: 2kW/s\n-Health: " + GetMaxHelthOfObj(Obj.Crafter)
+                "-Power required: 3kW/s\n-Health: " + GetMaxHelthOfObj(Obj.Crafter)
             ),
              new BuildingRecipe(
                 Obj.ElectricSmelter,
@@ -725,6 +749,24 @@ public class AllRecipes : MonoBehaviour
                 Technologies.TransmissionTower,
                 "-Range: 7 fields\n-Health: " + GetMaxHelthOfObj(Obj.TransmissionTower)
             ),
+            new BuildingRecipe(
+                Obj.WindTurbine1,
+                new List<ItemRAQ>{ new ItemRAQ(Res.Planks, 4), new ItemRAQ(Res.Wood, 5), new ItemRAQ(Res.StoneBrick, 6), new ItemRAQ(Res.CopperCable, 3) },
+                new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
+                new List<Res>{},
+                Technologies.WindTurbine1,
+                "-Health: " + GetMaxHelthOfObj(Obj.WindTurbine1)
+            ),
+            /*
+            new BuildingRecipe(
+                Obj.WindTurbine2,
+                new List<ItemRAQ>{  },
+                new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
+                new List<Res>{},
+                Technologies.WindTurbine2,
+                "-Health: " + GetMaxHelthOfObj(Obj.WindTurbine2)
+            ),
+            */
             new BuildingRecipe(
                 Obj.CombustionGenerator,
                 new List<ItemRAQ>{ new ItemRAQ(Res.CopperPlate, 6), new ItemRAQ(Res.WoodenCircuit, 2), new ItemRAQ(Res.CopperCable, 4), new ItemRAQ(Res.IronPlate, 4)},
@@ -874,7 +916,7 @@ public class AllRecipes : MonoBehaviour
         };
 
         //Fuel list
-        fuelList = new List<Fuel> { new Fuel(Res.Wood, 200), new Fuel(Res.Coal, 500) };
+        fuelList = new List<Fuel> { new Fuel(Res.Wood, 200), new Fuel(Res.CompressedWood, 1000), new Fuel(Res.Coal, 600) };
     }
 
     public BuildingRecipe GetBuildRecipe(Obj _obj)
@@ -1087,7 +1129,6 @@ public class AllRecipes : MonoBehaviour
             case Obj.FastConnector:     return 75;
 
             case Obj.Launchpad:         return 250;
-            case Obj.BasicRequester:    return 100;
             case Obj.SpaceRequester:    return 250;
 
             case Obj.ConUnderConstruction:return 0;
@@ -1096,6 +1137,8 @@ public class AllRecipes : MonoBehaviour
             case Obj.Connection2:       return 0;
             case Obj.Connection3:       return 0;
 
+            case Obj.WindTurbine1:      return 50;
+            case Obj.WindTurbine2:      return 100;
             case Obj.TransmissionTower: return 75;
             case Obj.Battery:           return 150;
             case Obj.CombustionGenerator:return 150;

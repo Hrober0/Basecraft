@@ -27357,6 +27357,7 @@ MonoBehaviour:
   TaskIcon: {fileID: 21300000, guid: 21a2419c32658e24e92368f184c567e6, type: 3}
   NormalBordercolor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   ActiveBordercolor: {r: 0.8431373, g: 0.7058824, b: 0.20392159, a: 1}
+  numOfMaxVisableMess: 0
 --- !u!1 &3758075645253489940
 GameObject:
   m_ObjectHideFlags: 0
@@ -38919,6 +38920,7 @@ MonoBehaviour:
   ChemicalPlant: {fileID: 21300000, guid: 7295f15937c6a494fa7725f722e91379, type: 3}
   DronStation: {fileID: 21300000, guid: 3fe97eed4a69ad84e807a780b8a97ed0, type: 3}
   Connector: {fileID: 21300000, guid: ad8c27ef491fb7b4991b574dec466821, type: 3}
+  WindTurbine1: {fileID: 21300000, guid: f0da03c06a8352e409382a422ba80b73, type: 3}
   TransmissionTower: {fileID: 21300000, guid: 4d079c0dbfd913b4eb36ab15ed584784, type: 3}
   CombustionGenerator: {fileID: 21300000, guid: 157e113053d908643b372972849f7abb,
     type: 3}
@@ -38931,6 +38933,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b71a3109d6ef2a447ae3b8a2a0f84808, type: 3}
   - {fileID: 21300000, guid: 2d4996066d9a42f43bae22e7151268d8, type: 3}
   - {fileID: 21300000, guid: 800abfed29435694392a1a5180cef1e4, type: 3}
+  - {fileID: 21300000, guid: e7ce5b1188219a149ad42499f04dae2b, type: 3}
   - {fileID: 21300000, guid: 3745672214e9bff45aaa1f154bc8f0c0, type: 3}
   - {fileID: 21300000, guid: b55bff8be6994b24e92f1cbf00795983, type: 3}
   - {fileID: 21300000, guid: a952c3ffc61a1944caaa880142829d2c, type: 3}
@@ -38946,6 +38949,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: aa4154852f6445e41bebf9a41a3d9b82, type: 3}
   - {fileID: 21300000, guid: 46288c0afcb4a8442b07b5952c001788, type: 3}
   - {fileID: 21300000, guid: bf2493537e0ed68428a8c843f57e0cfe, type: 3}
+  - {fileID: 21300000, guid: 553b204a7f3a4a341a06abbfcbbfba5d, type: 3}
   - {fileID: 21300000, guid: 45cd71aa26765df439d28c3b3d1ee7c3, type: 3}
   - {fileID: 21300000, guid: d8b7b2c6de31b33459a5d1fe9ea59a1f, type: 3}
   - {fileID: 21300000, guid: 40b2a25977cc0ad48bbc161f274d445c, type: 3}

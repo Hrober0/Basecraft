@@ -1072,21 +1072,6 @@ public class LeftPanel : MonoBehaviour
     }
     private void UpdateGlossaryResInfoPanle(int n)
     {
-        if(n < 0 || n >= itemsRecipeList.Count) { return; }
-        ItemRecipeStruct useItemRecipeStruct = itemsRecipeList[n];
-
-        string prodText;
-        switch (useItemRecipeStruct.obj)
-        {
-            case Obj.IronOre: case Obj.CopperOre: case Obj.SandOre: case Obj.CoalOre: case Obj.StoneOre:
-                prodText = "You can obtain it by digging " + Language.NameOfObj(useItemRecipeStruct.obj); break;
-            case Obj.Tree:
-                prodText = "Can be obtained from cutted " + Language.NameOfObj(Obj.Tree); break;
-            default:
-                prodText = "Can be produced in " + Language.NameOfObj(useItemRecipeStruct.obj); break;
-        }
-
-        GlossaryItemInfoPanel.Find("ProdText").GetComponent<Text>().text = prodText;
         GlossaryItemInfoPanel.Find("PageText").GetComponent<Text>().text = string.Format("Page {0}/{1}", n+1, itemsRecipeList.Count);
 
         Transform Recipe = GlossaryItemInfoPanel.Find("Recipe");
@@ -1096,6 +1081,26 @@ public class LeftPanel : MonoBehaviour
 
         foreach (Transform child in ItemsIn) { child.gameObject.SetActive(false); }
         foreach (Transform child in ItemsOut) { child.gameObject.SetActive(false); }
+
+        if (n < 0 || n >= itemsRecipeList.Count) { return; }
+        ItemRecipeStruct useItemRecipeStruct = itemsRecipeList[n];
+
+        string prodText;
+        switch (useItemRecipeStruct.obj)
+        {
+            case Obj.IronOre:
+            case Obj.CopperOre:
+            case Obj.SandOre:
+            case Obj.CoalOre:
+            case Obj.StoneOre:
+                prodText = "You can obtain it by digging " + Language.NameOfObj(useItemRecipeStruct.obj); break;
+            case Obj.Tree:
+                prodText = "Can be obtained from cutted " + Language.NameOfObj(Obj.Tree); break;
+            default:
+                prodText = "Can be produced in " + Language.NameOfObj(useItemRecipeStruct.obj); break;
+        }
+
+        GlossaryItemInfoPanel.Find("ProdText").GetComponent<Text>().text = prodText;
 
         if (useItemRecipeStruct.craftRecipe != null)
         {

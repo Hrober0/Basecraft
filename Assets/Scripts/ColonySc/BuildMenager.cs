@@ -63,7 +63,6 @@ public class BuildMenager : MonoBehaviour
     public GameObject Repairer;
 
     public GameObject Launchpad;
-    public GameObject BasicRequester;
     public GameObject SpaceRequester;
 
     [Header("Platform item imaga prefab to set")]
@@ -605,7 +604,6 @@ public class BuildMenager : MonoBehaviour
             case Obj.Repairer: return Repairer;
 
             case Obj.Launchpad: return Launchpad;
-            case Obj.BasicRequester: return BasicRequester;
             case Obj.SpaceRequester: return SpaceRequester;
         }
         Debug.Log("missing prefab of: " + obj);

@@ -33,6 +33,8 @@ public class ImageLibrary : MonoBehaviour
     [SerializeField] private Sprite Connector = null;
     //[SerializeField] private Sprite FastConnector = null;
 
+    [SerializeField] private Sprite WindTurbine1 = null;
+    //[SerializeField] private Sprite WindTurbine2 = null;
     [SerializeField] private Sprite TransmissionTower = null;
     [SerializeField] private Sprite CombustionGenerator = null;
     [SerializeField] private Sprite SteemGenerator = null;
@@ -65,7 +67,7 @@ public class ImageLibrary : MonoBehaviour
         for (int i = 0; i < ResLenght; i++)
         {
             Sprite tempsprite = Resources.Load<Sprite>(string.Format("ResIcons/{0}", (Res)i));
-            if (tempsprite == null) { Debug.Log("ERROR! Sprite: " + (Res)i + " not found"); }
+            if (tempsprite == null) { Debug.LogWarning("ERROR! Sprite: " + (Res)i + " not found"); }
             else { resIcons[i] = tempsprite; }
         }
         Resources.UnloadUnusedAssets();
@@ -112,8 +114,10 @@ public class ImageLibrary : MonoBehaviour
             case Obj.DroneStation:      return DronStation;
 
             case Obj.Connector:         return Connector;
-            //case Obj.FastConnector:     return FastConnector;
+            //case Obj.FastConnector:   return FastConnector;
 
+            case Obj.WindTurbine1:      return WindTurbine1;
+            //case Obj.WindTurbine2:      return WindTurbine2;
             case Obj.TransmissionTower: return TransmissionTower;
             case Obj.CombustionGenerator:return CombustionGenerator;
             case Obj.SteamGenerator:    return SteemGenerator;
@@ -124,8 +128,7 @@ public class ImageLibrary : MonoBehaviour
             //case Obj.Repairer:        return Repairer;
 
             case Obj.Launchpad:         return Launchpad;
-            //case Obj.BasicRequester:    return BasicRequester;
-            //case Obj.SpaceRequester:    return SpaceRequester;
+            //case Obj.SpaceRequester:  return SpaceRequester;
         }
 
         if (TerrainManager.instance != null)

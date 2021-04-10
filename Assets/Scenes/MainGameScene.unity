@@ -1514,8 +1514,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.00004695012, y: 39.2}
-  m_SizeDelta: {x: 160, y: 34.14604}
+  m_AnchoredPosition: {x: 0.00004695012, y: 43.49}
+  m_SizeDelta: {x: 160, y: 38.43564}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &71301588
 MonoBehaviour:
@@ -6798,7 +6798,6 @@ MonoBehaviour:
   Repairer: {fileID: 0}
   Launchpad: {fileID: 4166966855098354413, guid: 16f1a90bdda908e48af9eb82bce6d397,
     type: 3}
-  BasicRequester: {fileID: 0}
   SpaceRequester: {fileID: 0}
   PlatformItemImage: {fileID: 8664255918911588955, guid: 5d882689e477b1f49b3e1f5f2a54ce98,
     type: 3}
@@ -42553,8 +42552,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000051193, y: 18.2}
-  m_SizeDelta: {x: 157.99992, y: 28.704193}
+  m_AnchoredPosition: {x: -0.000051193, y: 22.66}
+  m_SizeDelta: {x: 157.99992, y: 35.56762}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2135007811
 MonoBehaviour:

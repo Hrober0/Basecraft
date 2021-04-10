@@ -42,7 +42,7 @@ public class Language : MonoBehaviour
         if (file == null)
         {
             file = Resources.Load<TextAsset>("Languages/" + SystemLanguage.English.ToString());
-            Debug.Log("ERROR! Dont found " + usingLanguage + " file!");
+            Debug.LogWarning("Dont found " + usingLanguage + " file!");
             usingLanguage = SystemLanguage.English;
         }
         foreach (var line in file.text.Split('\n'))
@@ -68,12 +68,12 @@ public class Language : MonoBehaviour
 
             if (allEngWords.ContainsKey(dName))
             {
-                Debug.Log("ERROR!: Dont found Res." + res + " in " + usingLanguage + " file! Setting English version.");
+                Debug.LogWarning("Dont found Res." + res + " in " + usingLanguage + " file! Setting English version.");
                 resNames[res] = allEngWords[dName];
                 continue;
             }
 
-            Debug.Log("ERROR!: Dont found Res." + res + " in " + usingLanguage + " and English file! Setting place holder.");
+            Debug.LogWarning("Dont found Res." + res + " in " + usingLanguage + " and English file! Setting place holder.");
             resNames[res] = string.Format("<{0}>", res);
         }
     }
@@ -93,12 +93,12 @@ public class Language : MonoBehaviour
 
             if (allEngWords.ContainsKey(dName))
             {
-                Debug.Log("ERROR!: Dont found Obj." + obj + " in " + usingLanguage + " file! Setting English version.");
+                Debug.LogWarning("Dont found Obj." + obj + " in " + usingLanguage + " file! Setting English version.");
                 objNames[obj] = allEngWords[dName];
                 continue;
             }
 
-            Debug.Log("ERROR!: Dont found Obj." + obj + " in " + usingLanguage + " file! Setting place holder.");
+            Debug.LogWarning("Dont found Obj." + obj + " in " + usingLanguage + " file! Setting place holder.");
             objNames[obj] = string.Format("<{0}>", obj);
         }
     }
@@ -118,12 +118,12 @@ public class Language : MonoBehaviour
 
             if (allEngWords.ContainsKey(dName))
             {
-                Debug.Log("ERROR!: Dont found Tech." + tech + " in " + usingLanguage + " file! Setting English version.");
+                Debug.LogWarning("Dont found Tech." + tech + " in " + usingLanguage + " file! Setting English version.");
                 techNames[tech] = allEngWords[dName];
                 continue;
             }
 
-            Debug.Log("ERROR!: Dont found Tech." + tech + " in " + usingLanguage + " file! Setting place holder.");
+            Debug.LogWarning("Dont found Tech." + tech + " in " + usingLanguage + " file! Setting place holder.");
             techNames[tech] = string.Format("<{0}>", tech);
         }
     }

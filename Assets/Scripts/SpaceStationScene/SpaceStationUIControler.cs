@@ -340,6 +340,7 @@ public class SpaceStationUIControler : MonoBehaviour
             {
                 case Res.Wood: return "Wood";
                 case Res.StoneOre: return "Stone";
+                case Res.CopperOreCtm:
                 case Res.CopperOre: return "Copper";
                 case Res.IronOre: return "Iron";
                 case Res.Coal: return "Coal";
