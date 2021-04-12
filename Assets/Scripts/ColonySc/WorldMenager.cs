@@ -878,11 +878,11 @@ public class WorldMenager : MonoBehaviour
                 
             }
         }
-        else if (objToRemove == Obj.WindTurbine1 || objToRemove == Obj.WindTurbine2 || objToRemove == Obj.CombustionGenerator || objToRemove == Obj.SteamGenerator)
+        else if (AllRecipes.instance.IsEnergyGenerator(objToRemove))
         {
             ElectricityManager.instance.RemoveGenerator(GOToRemove.GetComponent<ElectricityUser>());
         }
-        else if (objToRemove == Obj.ChemicalPlant || objToRemove == Obj.ElectricSmelter || objToRemove == Obj.LaserTurret || objToRemove == Obj.Repairer)
+        else if (AllRecipes.instance.IsEnergyRequester(objToRemove))
         {
             ElectricityManager.instance.RemoveRequester(GOToRemove.GetComponent<ElectricityUser>());
         }
@@ -1068,7 +1068,18 @@ public class WorldMenager : MonoBehaviour
                 return g / del;
             }
         }
-    } 
+    }
+    public bool IsInDistance(int x1, int y1, int x2, int y2, int range)
+    {
+        int rs = range * range;
+        int dx = x1 - x2;
+        int dy = y1 - y2;
+        int o = dx * dx + dy * dy;
+        if (o <= rs) return true;
+        return false;
+    }
+
+
     private void CheckPlayerOpction()
     {
         if (DronControler.instance.AllDS.Count == 0)

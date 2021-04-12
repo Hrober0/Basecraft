@@ -222,41 +222,69 @@ public class ClickMenager : MonoBehaviour
     }
     private void BuildObjectClick()
     {
-        Obj ObjName = GuiControler.instance.BuildPanelSc.selectedObj;
+        Obj objName = GuiControler.instance.BuildPanelSc.selectedObj;
 
-        if (ObjName == Obj.None) { clickMode = ClickMode.Normal; }
+        if (objName == Obj.None) { clickMode = ClickMode.Normal; }
 
         if (WorldMenager.instance.GetSquer(x, y) != Obj.None)
         {
-            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)ObjName);
+            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)objName);
             GuiControler.instance.BuildPanelSc.ShowErrorOfPointer();
             return;
         }
 
-        BuildingRecipe useBR = AllRecipes.instance.GetBuildRecipe(ObjName);
+        // check building recipe
+        BuildingRecipe useBR = AllRecipes.instance.GetBuildRecipe(objName);
         if (useBR == null)
         {
-            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)ObjName);
+            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)objName);
             GuiControler.instance.BuildPanelSc.ShowErrorOfPointer();
             return;
         }
+
+        // check range
+        if (CheckRangeOfWndTurbine() == false)
+        {
+            MessageManager.instance.ShowMessage(Messages.CantBuildItTooCloseWindTurbine);
+            GuiControler.instance.BuildPanelSc.ShowErrorOfPointer();
+            return;
+        }
+
+        // check terrain
         bool CanBuildIt = false;
-        if (useBR.whereItCanBeBuild.Count != 0)
+        if (useBR.whereItCanBeBuild.Count == 0) CanBuildIt = true;
+        else
         {
             for (int i = 0; i < useBR.whereItCanBeBuild.Count; i++)
-            { if (useBR.whereItCanBeBuild[i] == WorldMenager.instance.terrainTiles[x, y]) { CanBuildIt = true; } }
+            {
+                if (useBR.whereItCanBeBuild[i] == WorldMenager.instance.terrainTiles[x, y]) CanBuildIt = true;
+            }
         }
-        else
-        { CanBuildIt = true; }
-
         if (CanBuildIt == false)
         {
-            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)ObjName);
+            MessageManager.instance.ShowMessage(Messages.CantBuildItHere, (int)objName);
             GuiControler.instance.BuildPanelSc.ShowErrorOfPointer();
             return;
         }
 
-        BuildMenager.instance.AddObjToBuild(ObjName, x, y, new Vector2Int());
+        // build
+        BuildMenager.instance.AddObjToBuild(objName, x, y, new Vector2Int());
+
+        bool CheckRangeOfWndTurbine()
+        {
+            int range = WindTurbine.minimumDistanceToAnotherTurbine;
+            Vector2Int pos;
+
+            if (objName == Obj.WindTurbine1 || objName == Obj.WindTurbine2)
+            {
+                pos = WorldMenager.instance.FindTheNearestObject(Obj.WindTurbine1, x, y, range);
+                if (WorldMenager.instance.IsInDistance(x, y, pos.x, pos.y, range)) return false;
+
+                pos = WorldMenager.instance.FindTheNearestObject(Obj.WindTurbine2, x, y, range);
+                if (WorldMenager.instance.IsInDistance(x, y, pos.x, pos.y, range)) return false;
+            }
+            return true;  
+        }
     }
     private void ConnectionClick()
     {

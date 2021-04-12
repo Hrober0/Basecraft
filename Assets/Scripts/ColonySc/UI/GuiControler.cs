@@ -1030,7 +1030,7 @@ public class GuiControler : MonoBehaviour
     private void ShowFuelPanel()
     {
         ShowPanel(FuelPanelT);
-        ProcesingPanelSc.UpdateFuelPanel();
+        ProcesingPanelSc.UpdateFuelPanel(false);
     }
 
     // Turret Gui
@@ -1168,17 +1168,17 @@ public class GuiControler : MonoBehaviour
 
         t = (useNet.production <= useNet.maxProduction) ? useNet.production : useNet.maxProduction;
         percent = (useNet.maxProduction > 0) ? Mathf.Clamp(t / useNet.maxProduction, 0f, 1f) : 0;
-        EGProductionSlider.value = lerp ? Mathf.Lerp(percent, EGProductionSlider.value, 0.5f) : percent;
+        EGProductionSlider.value = lerp ? Mathf.Lerp(percent, EGProductionSlider.value, 0.9f) : percent;
         EGPText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxProduction);
 
         t = (useNet.request <= useNet.maxRequest) ? useNet.request : useNet.maxRequest;
         percent = (useNet.maxRequest > 0) ? Mathf.Clamp(t / useNet.maxRequest, 0f, 1f) : 0;
-        EGRequestSlider.value = lerp ? Mathf.Lerp(percent, EGRequestSlider.value, 0.5f) : percent;
+        EGRequestSlider.value = lerp ? Mathf.Lerp(percent, EGRequestSlider.value, 0.9f) : percent;
         EGRText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxRequest);
 
         t = (useNet.charge <= useNet.maxCharge) ? useNet.charge : useNet.maxCharge;
         percent = (useNet.maxCharge > 0) ? Mathf.Clamp(t / useNet.maxCharge, 0f, 1f) : 0;
-        EGChargeSlider.value = lerp ? Mathf.Lerp(percent, EGChargeSlider.value, 0.5f): percent;
+        EGChargeSlider.value = lerp ? Mathf.Lerp(percent, EGChargeSlider.value, 0.9f): percent;
         EGCText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxCharge);
     }
 
@@ -1224,8 +1224,8 @@ public class GuiControler : MonoBehaviour
         if (useEleUserSc != null)
         {
             float percent = 0f;
-            if(usePBSc.working && useEleUserSc.maxEnergyPerSec > 0f) { percent = 1f - useEleUserSc.actCharge / useEleUserSc.maxCharge; }
-            PGGProductionSlider.value = lerp ? Mathf.Lerp(percent, PGGProductionSlider.value, 0.5f) : percent;
+            if(usePBSc.working && useEleUserSc.maxEnergyPerSec > 0f) percent = 1f - useEleUserSc.actCharge / useEleUserSc.maxCharge;
+            PGGProductionSlider.value = lerp ? Mathf.Lerp(percent, PGGProductionSlider.value, 0.9f) : percent;
         }
     }
 

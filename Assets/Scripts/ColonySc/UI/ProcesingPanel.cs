@@ -39,7 +39,7 @@ public class ProcesingPanel : MonoBehaviour
     private List<Res> ProcesingResIn;
     private List<Res> ProcesingResOut;
 
-    private readonly float updateGuiDelay = 0.3f;
+    private readonly float updateGuiDelay = 0.1f;
     private float timeToUpdateGui = 0f;
 
     void Update()
@@ -367,7 +367,7 @@ public class ProcesingPanel : MonoBehaviour
     }
 
     //fuell
-    public void UpdateFuelPanel()
+    public void UpdateFuelPanel(bool lerp=true)
     {
         Obj useObj = GuiControler.instance.useObj;
         if (AllRecipes.instance.IsObjHaveCrafterNeedFuelSc(useObj))
@@ -398,8 +398,9 @@ public class ProcesingPanel : MonoBehaviour
             else
             {
                 float percent = 0f;
-                if (useEleUserSc.maxCharge > 0f) percent = useEleUserSc.actCharge / useEleUserSc.maxCharge;
-                ProcesingFuelSlider.value = percent;
+                if (useEleUserSc.maxCharge > 0f) percent = useEleUserSc.actCharge / useEleUserSc.maxCharge * 1.1f;
+                percent = Mathf.Clamp(percent, 0f, 1f);
+                ProcesingFuelSlider.value = lerp ? Mathf.Lerp(percent, ProcesingFuelSlider.value, 0.9f) : percent;
             }
         }
     }

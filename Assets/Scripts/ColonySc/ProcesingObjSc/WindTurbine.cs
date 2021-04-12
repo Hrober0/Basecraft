@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WindTurbine : MonoBehaviour
 {
+    public static readonly int minimumDistanceToAnotherTurbine = 8;
+
     [SerializeField] private float productionPerSec = 1f;
     [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private Transform rotorTrans = null;

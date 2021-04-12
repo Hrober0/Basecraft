@@ -1633,7 +1633,6 @@ MonoBehaviour:
   resLenght: 0
   ObjLenght: 0
   TerrainLenght: 0
-  updateGuiDelay: 0.3
   disActiveButtonColor: {r: 1, g: 1, b: 1, a: 1}
   activeButtonColor: {r: 0.8431373, g: 0.7058824, b: 0.20392159, a: 1}
   resFog: {fileID: 21300000, guid: 55152d06126a2154cae89c6f4d4c7887, type: 3}
@@ -6817,6 +6816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01edc78d753b9c044821fc2a2a267c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networks: []
   AllTransTowers: []
   tTRange: 5
   updateDelay: 0.2

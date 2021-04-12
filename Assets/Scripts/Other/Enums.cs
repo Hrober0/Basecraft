@@ -82,6 +82,7 @@ public enum Messages
     CantConnectThisObj, CantBuildConnectionThroughObj, ConnectionIsAlreadyBuilt, DoesntSelectConToBuild,
     CantDemolitionObj, CantDisasembleObj, CantMineObj, CantCutObj, CantPlantHere,
     CantBuildItHere, YouAreUnderAttack, AttackIsComing, CantStartHere, NoDronStation, NoTransmisonTower,
+    CantBuildItTooCloseWindTurbine,
 }
 
 public enum ColonyNames { Valley=0, Desert=1, Forest=2, Moutains=3, Island=4, River=5, Canyon=6, }

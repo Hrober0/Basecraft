@@ -95,6 +95,7 @@ public class MessageManager : MonoBehaviour
             switch (mes)
             {
                 case Messages.CantBuildItHere:                mesType = MesType.Error;    return "You can't build it here. You should choose an empty place!";
+                case Messages.CantBuildItTooCloseWindTurbine: mesType = MesType.Error;    return "Minimum distance from the second turbine is " + WindTurbine.minimumDistanceToAnotherTurbine + " units!";
                 case Messages.CantConnectThisObj:             mesType = MesType.Error;    return "Can't connect this object!";
                 case Messages.CantBuildConnectionThroughObj:  mesType = MesType.Error;    return "Can't build connection through objects!";
                 case Messages.DoesntSelectConToBuild:         mesType = MesType.Error;    return "Does not select connection to build type!";
@@ -108,11 +109,11 @@ public class MessageManager : MonoBehaviour
 
                 case Messages.CantStartHere:                  mesType = MesType.Error;    return "You can't start here. You should choose an empty place!";
 
-                case Messages.YouAreUnderAttack:             mesType = MesType.Warning;  return "You are under attack!";
-                case Messages.AttackIsComing:                mesType = MesType.Warning;  return "You will be attacked in a moment!";
+                case Messages.YouAreUnderAttack:             mesType = MesType.Warning;   return "You are under attack!";
+                case Messages.AttackIsComing:                mesType = MesType.Warning;   return "You will be attacked in a moment!";
 
-                case Messages.NoDronStation:                 mesType = MesType.Warning;  return "There are no drone stations available. Our drones can't function!";
-                case Messages.NoTransmisonTower:             mesType = MesType.Message;  return "U can't open electricity panel!";
+                case Messages.NoDronStation:                 mesType = MesType.Warning;   return "There are no drone stations available. Our drones can't function!";
+                case Messages.NoTransmisonTower:             mesType = MesType.Message;   return "U can't open electricity panel!";
             }
             return "";
         }
