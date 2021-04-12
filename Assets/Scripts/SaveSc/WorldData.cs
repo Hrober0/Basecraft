@@ -157,6 +157,7 @@ public class BuildingsData
         public ItemData[] items;
 
         public float startTaskTime;
+        public float timeToEndCraft;
         public int useRecipe;
         public int[] veribals;
 
@@ -165,16 +166,15 @@ public class BuildingsData
         public bool keepAmountOfRequestedItems;
         public ItemRAQ[] requestItems;
 
-        public PlatformData(int _obj, int _x, int _y, int _health, ItemData[] _items)
+        public PlatformData(int obj, int x, int y, int health, ItemData[] items, float startTaskTime, float timeToEndCraft)
         {
-            obj = _obj;
-            x = _x;
-            y = _y;
-            health = _health;
-            items = _items;
-            veribals = new int[0];
-            keepAmountOfRequestedItems = false;
-            requestItems = new ItemRAQ[0];
+            this.obj = obj;
+            this.x = x;
+            this.y = y;
+            this.health = health;
+            this.items = items;
+            this.startTaskTime = startTaskTime;
+            this.timeToEndCraft = timeToEndCraft;
         }
     }
 

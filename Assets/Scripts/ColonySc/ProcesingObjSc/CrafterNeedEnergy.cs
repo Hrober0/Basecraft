@@ -10,55 +10,53 @@ public class CrafterNeedEnergy : MonoBehaviour
     [Header("Variables")]
     public int nowUseRecipeNumber;
     private float craftTime = 1f;
-    public float timeToEndCraft = 0f;
 
     [Header("Energy")]
-    public float needEnergy = 2f;
+    [SerializeField] private float needEnergy = 2f;
     private ElectricityUser eleUSc;
 
-    private PlatformBehavior PlatformB;
+    private PlatformBehavior platformB;
 
-    private List<ItemRAQ> ItemIn;
-    private List<ItemRAQ> ItemOut;
+    private List<ItemRAQ> itemIn;
+    private List<ItemRAQ> itemOut;
 
     void Awake()
     {
-        PlatformB = gameObject.GetComponent<PlatformBehavior>();
+        platformB = gameObject.GetComponent<PlatformBehavior>();
 
-        PlatformB.usingGuiType = PlatfotmGUIType.Procesing;
-        PlatformB.itemSendingType = PlatformItemSendingType.Procesing;
+        platformB.usingGuiType = PlatfotmGUIType.Procesing;
+        platformB.itemSendingType = PlatformItemSendingType.Procesing;
 
-        PlatformB.taskTime = craftTime;
-
-        //energy
-        eleUSc = gameObject.GetComponent<ElectricityUser>();
-        if (eleUSc == null) { Debug.LogError(name + " dont have ElectricityUser script!"); }
-        eleUSc.maxEnergyPerSec = needEnergy;
-        eleUSc.actCharge = 0f;
-        eleUSc.maxCharge = eleUSc.maxEnergyPerSec * 2f;
-        ElectricityManager.instance.AddRequester(eleUSc);
+        platformB.taskTime = craftTime;
 
         nowUseRecipeNumber = -1;
         SetResToCraft(0);
+
+        //energy
+        eleUSc = gameObject.GetComponent<ElectricityUser>();
+        if (eleUSc == null) Debug.LogError(name + " dont have ElectricityUser script!");
+        eleUSc.maxEnergyPerSec = needEnergy;
+        eleUSc.actCharge = 0f;
+        eleUSc.maxCharge = eleUSc.maxEnergyPerSec * 2f;
     }
     void Start()
     {
-        InvokeRepeating("TryCraft", WorldMenager.instance.frequencyOfChecking, WorldMenager.instance.frequencyOfChecking);
+        ElectricityManager.instance.AddRequester(eleUSc);
+        Invoke(nameof(TryCraft), 1);
     }
     private void Update()
     {
-        if (PlatformB.working == false) { eleUSc.actEnergyPerSec = 0f; return; }
+        if (platformB.working == false) return;
 
         float prodPercent = eleUSc.actCharge / eleUSc.maxCharge;
-        eleUSc.actEnergyPerSec = prodPercent * needEnergy;
         float percTime = Time.deltaTime * prodPercent;
         float energy = needEnergy * percTime;
 
-        if (eleUSc.actCharge < energy) { PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return; }
+        if (eleUSc.actCharge < energy) { platformB.working = false; return; }
 
         eleUSc.actCharge -= energy;
-        timeToEndCraft -= percTime;
-        if (timeToEndCraft <= 0)
+        platformB.timeToEndCraft -= percTime;
+        if (platformB.timeToEndCraft <= 0)
         {
             Craft();
         }
@@ -72,95 +70,99 @@ public class CrafterNeedEnergy : MonoBehaviour
 
         nowUseRecipeNumber = recipeNuber;
 
-        for (int i = 0; i < PlatformB.itemOnPlatform.Length; i++)
+        for (int i = 0; i < platformB.itemOnPlatform.Length; i++)
         {
-            PlatformB.itemOnPlatform[i].maxQua = 0;
-            PlatformB.itemOnPlatform[i].canOut = true;
+            platformB.itemOnPlatform[i].maxQua = 0;
+            platformB.itemOnPlatform[i].canOut = true;
         }
 
         if (nowUseRecipeNumber == 0)
         {
-            PlatformB.UpdateImageR(Res.None);
-            PlatformB.working = false;
-            PlatformB.SetAllCanInItem(false);
+            platformB.UpdateImageR(Res.None);
+            platformB.working = false;
+            platformB.SetAllCanInItem(false);
 
-            PlatformB.UpdateAvalibleResList();
-            ItemIn = new List<ItemRAQ>();
-            ItemOut = new List<ItemRAQ>();
+            platformB.UpdateAvalibleResList();
+            itemIn = new List<ItemRAQ>();
+            itemOut = new List<ItemRAQ>();
             return;
         }
 
-        PlatformB.canGetRes = true;
+        platformB.canGetRes = true;
 
         CraftRecipe nowUseRecipe = AllRecipes.instance.GetCraftRecipes(recipeObj)[nowUseRecipeNumber - 1];
 
-        PlatformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
+        platformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
 
         for (int i = 0; i < nowUseRecipe.ItemIn.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemIn[i].res;
             int qua = nowUseRecipe.ItemIn[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
-            PlatformB.itemOnPlatform[resIndex].canIn = true;
-            PlatformB.itemOnPlatform[resIndex].canOut = false;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].canIn = true;
+            platformB.itemOnPlatform[resIndex].canOut = false;
         }
-        ItemIn = nowUseRecipe.ItemIn;
+        itemIn = nowUseRecipe.ItemIn;
         for (int i = 0; i < nowUseRecipe.ItemOut.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemOut[i].res;
             int qua = nowUseRecipe.ItemOut[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
         }
-        ItemOut = nowUseRecipe.ItemOut;
+        itemOut = nowUseRecipe.ItemOut;
 
-        PlatformB.UpdateAvalibleResList();
+        platformB.UpdateAvalibleResList();
         craftTime = nowUseRecipe.exeTime / speedMultiplayer;
-        PlatformB.taskTime = craftTime;
+        platformB.taskTime = craftTime;
 
-        PlatformB.startTaskTime = WorldMenager.instance.worldTime;
-        timeToEndCraft = craftTime;
+        platformB.startTaskTime = WorldMenager.instance.worldTime;
+        platformB.timeToEndCraft = craftTime;
     }
 
     private void TryCraft()
     {
-        if (nowUseRecipeNumber == 0 || PlatformB.working || CanCraftRes() == false) { return; }
-
-        if (timeToEndCraft <= 0f)
+        if (nowUseRecipeNumber == 0 || platformB.working || CanCraftRes() == false)
         {
-            PlatformB.startTaskTime = WorldMenager.instance.worldTime;
-            timeToEndCraft = craftTime;
+            Invoke(nameof(TryCraft), 1); 
+            return;
+        }
+
+        if (platformB.timeToEndCraft <= 0f)
+        {
+            platformB.startTaskTime = WorldMenager.instance.worldTime;
+            platformB.timeToEndCraft = craftTime;
         }
         else
         {
-            PlatformB.startTaskTime = WorldMenager.instance.worldTime - (PlatformB.taskTime - timeToEndCraft);
+            platformB.startTaskTime = WorldMenager.instance.worldTime - (platformB.taskTime - platformB.timeToEndCraft);
         }
-        PlatformB.working = true;
+        platformB.working = true;
     }
     private void Craft()
     {
-        for (int i = 0; i < ItemIn.Count; i++)
+        for (int i = 0; i < itemIn.Count; i++)
         {
-            PlatformB.AddItem(ItemIn[i].res, -ItemIn[i].qua);
+            platformB.AddItem(itemIn[i].res, -itemIn[i].qua);
         }
-        for (int i = 0; i < ItemOut.Count; i++)
+        for (int i = 0; i < itemOut.Count; i++)
         {
-            PlatformB.AddItem(ItemOut[i].res, ItemOut[i].qua, true);
+            platformB.AddItem(itemOut[i].res, itemOut[i].qua, true);
         }
 
-        PlatformB.working = false;
+        platformB.working = false;
         TryCraft();
     }
 
     private bool CanCraftRes()
     {
-        for (int i = 0; i < ItemOut.Count; i++)
+        for (int i = 0; i < itemOut.Count; i++)
         {
-            if (PlatformB.itemOnPlatform[(int)ItemOut[i].res].qua + ItemOut[i].qua > PlatformB.itemOnPlatform[(int)ItemOut[i].res].maxQua)
+            if (platformB.itemOnPlatform[(int)itemOut[i].res].qua + itemOut[i].qua > platformB.itemOnPlatform[(int)itemOut[i].res].maxQua)
             { return false; }
         }
-        for (int i = 0; i < ItemIn.Count; i++)
+        for (int i = 0; i < itemIn.Count; i++)
         {
-            if (PlatformB.itemOnPlatform[(int)ItemIn[i].res].qua < ItemIn[i].qua)
+            if (platformB.itemOnPlatform[(int)itemIn[i].res].qua < itemIn[i].qua)
             { return false; }
         }
         return true;

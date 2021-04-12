@@ -856,7 +856,8 @@ public class LeftPanel : MonoBehaviour
         //description
         pos.y -= 30f;
         string desName = "TechDes." + techSc.thisTechnology;
-        string description = Language.GetText(desName);
+        
+        string description = Language.HasKey(desName) ? Language.GetText(desName) : "";
         if (description == "" || description == "null") { description = "Unlocks " + Language.NameOfTech(techSc.thisTechnology); }
         Text desText = DescryptionRT.gameObject.GetComponent<Text>();
         desText.text = description;

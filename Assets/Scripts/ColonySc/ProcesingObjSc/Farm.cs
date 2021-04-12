@@ -14,44 +14,82 @@ public class Farm : MonoBehaviour
     private List<ItemRAQ> ItemIn;
     private List<ItemRAQ> ItemOut;
 
-    private PlatformBehavior PlatformB;
-    Vector2Int myPos;
+    private PlatformBehavior platformB;
+    private Vector2Int myPos;
+
+    [Header("Energy")]
+    [SerializeField] private float needEnergy = 2f;
+    private ElectricityUser eleUSc;
 
     void Awake()
     {
-        PlatformB = gameObject.GetComponent<PlatformBehavior>();
+        platformB = gameObject.GetComponent<PlatformBehavior>();
 
-        myPos = PlatformB.GetTabPos();
+        myPos = platformB.GetTabPos();
 
-        PlatformB.taskTime = plantingTime;
-        PlatformB.range = range;
-        PlatformB.usingGuiType = PlatfotmGUIType.Procesing;
-        PlatformB.itemSendingType = PlatformItemSendingType.Procesing;
+        platformB.taskTime = plantingTime;
+        platformB.range = range;
+        platformB.usingGuiType = PlatfotmGUIType.Procesing;
+        platformB.itemSendingType = PlatformItemSendingType.Procesing;
+
+        //energy
+        eleUSc = gameObject.GetComponent<ElectricityUser>();
+        if (eleUSc == null) Debug.LogError(name + " dont have ElectricityUser script!");
+        eleUSc.maxEnergyPerSec = needEnergy;
+        eleUSc.actCharge = 0f;
+        eleUSc.maxCharge = eleUSc.maxEnergyPerSec * 2f;
 
         SetResToCraft(0);
     }
     void Start()
     {
-        Invoke("TryDoTask", WorldMenager.instance.frequencyOfChecking);
+        ElectricityManager.instance.AddRequester(eleUSc);
+        Invoke(nameof(TryDoTask), 1f);
+    }
+
+    private void Update()
+    {
+        if (platformB.working == false) return;
+
+        float prodPercent = eleUSc.actCharge / eleUSc.maxCharge;
+        float percTime = Time.deltaTime * prodPercent;
+        float energy = needEnergy * percTime;
+
+        if (eleUSc.actCharge < energy) { platformB.working = false; return; }
+
+        eleUSc.actCharge -= energy;
+        platformB.timeToEndCraft -= percTime;
+        if (platformB.timeToEndCraft <= 0)
+        {
+            DoTask();
+        }
     }
 
     private void TryDoTask()
     {
-        if (PlatformB.working || PlatformB.itemOnPlatform[(int)plantingRes].qua > PlatformB.itemOnPlatform[(int)plantingRes].maxQua)
-        { Invoke("TryDoTask", WorldMenager.instance.frequencyOfChecking); return; }
+        if (platformB.working || platformB.itemOnPlatform[(int)plantingRes].qua > platformB.itemOnPlatform[(int)plantingRes].maxQua)
+        {
+            Invoke(nameof(TryDoTask), 1);
+            return;
+        }
 
-        if (PlatformB.itemOnPlatform[(int)Res.BottleWater].qua > 0) { foundPlaceToPlant = WorldMenager.instance.FindTheNearestObjectOnTerrain(Obj.None, Obj.TerrainFertile, myPos.x, myPos.y, range); }
+        if (platformB.itemOnPlatform[(int)Res.BottleWater].qua > 0) { foundPlaceToPlant = WorldMenager.instance.FindTheNearestObjectOnTerrain(Obj.None, Obj.TerrainFertile, myPos.x, myPos.y, range); }
         else { foundPlaceToPlant = new Vector2Int(-1, -1); }
 
         Obj farmlandType = ResToObj(plantingRes);
         if (farmlandType == Obj.None) { foundPlaceToCollect = new Vector2Int(-1, -1); }
         else { foundPlaceToCollect = WorldMenager.instance.FindTheNearestObject(farmlandType, myPos.x,myPos.y, range); }
 
-        if (foundPlaceToPlant.x == -1 && foundPlaceToCollect.x == -1) { Invoke("TryDoTask", WorldMenager.instance.frequencyOfChecking); return; }
+        if (foundPlaceToPlant.x == -1 && foundPlaceToCollect.x == -1)
+        {
+            Invoke(nameof(TryDoTask), 1);
+            return;
+        }
 
-        PlatformB.startTaskTime = WorldMenager.instance.worldTime;
-        PlatformB.working = true;
-        Invoke("DoTask", plantingTime);
+        platformB.startTaskTime = WorldMenager.instance.worldTime;
+        platformB.taskTime = plantingTime;
+        platformB.timeToEndCraft = plantingTime;
+        platformB.working = true;
 
         Obj ResToObj(Res res)
         {
@@ -64,9 +102,10 @@ public class Farm : MonoBehaviour
             return Obj.None;
         }
     }
+
     private void DoTask()
     {
-        PlatformB.working = false;
+        platformB.working = false;
 
         if (foundPlaceToPlant.x != -1)
         {
@@ -79,8 +118,8 @@ public class Farm : MonoBehaviour
                     case Res.Grape: type = 2; break;
                     case Res.RubberPlant: type = 3; break;
                 }
-                PlatformB.AddItem(Res.BottleWater, -1);
-                PlatformB.AddItem(Res.BottleEmpty, 1);
+                platformB.AddItem(Res.BottleWater, -1);
+                platformB.AddItem(Res.BottleEmpty, 1);
                 TerrainManager.instance.SpawnFarmland(foundPlaceToPlant.x, foundPlaceToPlant.y, true, type);
             }
         }
@@ -91,7 +130,7 @@ public class Farm : MonoBehaviour
             if (fCT != null)
             {
                 WorldMenager.instance.RemoveObjFromGO(fCT.gameObject, foundPlaceToCollect.x, foundPlaceToCollect.y);
-                PlatformB.AddItem(plantingRes, 1, true);
+                platformB.AddItem(plantingRes, 1, true);
             }
         }
 
@@ -106,44 +145,44 @@ public class Farm : MonoBehaviour
 
         nowUseRecipeNumber = recipeNuber;
 
-        for (int i = 0; i < PlatformB.itemOnPlatform.Length; i++)
+        for (int i = 0; i < platformB.itemOnPlatform.Length; i++)
         {
-            PlatformB.itemOnPlatform[i].maxQua = 0;
-            PlatformB.itemOnPlatform[i].canOut = true;
+            platformB.itemOnPlatform[i].maxQua = 0;
+            platformB.itemOnPlatform[i].canOut = true;
         }
 
         if (nowUseRecipeNumber == 0)
         {
-            PlatformB.UpdateImageR(Res.None);
-            PlatformB.working = false;
-            PlatformB.SetAllCanInItem(false);
+            platformB.UpdateImageR(Res.None);
+            platformB.working = false;
+            platformB.SetAllCanInItem(false);
 
-            PlatformB.UpdateAvalibleResList();
+            platformB.UpdateAvalibleResList();
             ItemIn = new List<ItemRAQ>();
             ItemOut = new List<ItemRAQ>();
             return;
         }
 
-        PlatformB.canGetRes = true;
+        platformB.canGetRes = true;
 
         CraftRecipe nowUseRecipe = AllRecipes.instance.GetCraftRecipes(Obj.Farm)[nowUseRecipeNumber - 1];
 
-        PlatformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
+        platformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
 
         for (int i = 0; i < nowUseRecipe.ItemIn.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemIn[i].res;
             int qua = nowUseRecipe.ItemIn[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
-            PlatformB.itemOnPlatform[resIndex].canIn = true;
-            PlatformB.itemOnPlatform[resIndex].canOut = false;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].canIn = true;
+            platformB.itemOnPlatform[resIndex].canOut = false;
         }
         ItemIn = nowUseRecipe.ItemIn;
         for (int i = 0; i < nowUseRecipe.ItemOut.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemOut[i].res;
             int qua = nowUseRecipe.ItemOut[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
         }
         ItemOut = nowUseRecipe.ItemOut;
 
@@ -151,8 +190,8 @@ public class Farm : MonoBehaviour
         if (nowUseRecipe.ItemOut.Count > 0)
         { plantingRes = nowUseRecipe.ItemOut[0].res; }
 
-        PlatformB.UpdateAvalibleResList();
+        platformB.UpdateAvalibleResList();
         plantingTime = nowUseRecipe.exeTime;
-        PlatformB.taskTime = plantingTime;
+        platformB.taskTime = plantingTime;
     }
 }

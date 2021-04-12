@@ -132,6 +132,12 @@ public class Language : MonoBehaviour
     public static string NameOfRes(Res res) => resNames[res];
     public static string NameOfTech(Technologies tech) => techNames[tech];
     public static string NameOfObj(Obj obj) => objNames[obj];
+    public static bool HasKey(string key)
+    {
+        if (allWords.ContainsKey(key)) return true;
+        if (allEngWords.ContainsKey(key)) return true;
+        return false;
+    }
     public static string GetText(string key)
     {
         if (allWords.ContainsKey(key))

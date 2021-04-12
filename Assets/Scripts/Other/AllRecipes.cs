@@ -755,7 +755,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{},
                 Technologies.WindTurbine1,
-                "-Health: " + GetMaxHelthOfObj(Obj.WindTurbine1)
+                "-Electricity production: 1kW/s\n-Health: " + GetMaxHelthOfObj(Obj.WindTurbine1)
             ),
             /*
             new BuildingRecipe(
@@ -764,7 +764,7 @@ public class AllRecipes : MonoBehaviour
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{},
                 Technologies.WindTurbine2,
-                "-Health: " + GetMaxHelthOfObj(Obj.WindTurbine2)
+                "-Electricity production: 3kW/s\n-Health: " + GetMaxHelthOfObj(Obj.WindTurbine2)
             ),
             */
             new BuildingRecipe(
@@ -1226,8 +1226,9 @@ public class AllRecipes : MonoBehaviour
     public bool IsUsingEnergy(Obj sObj)
     {
         if (
-            sObj == Obj.Crafter || sObj == Obj.ChemicalPlant || sObj == Obj.ElectricSmelter || sObj == Obj.Repairer || sObj == Obj.LaserTurret ||
-            sObj == Obj.CombustionGenerator || sObj == Obj.SteamGenerator || sObj == Obj.SolarPanel1 ||
+            sObj == Obj.Quarry || sObj == Obj.Farm || sObj == Obj.Planter || sObj == Obj.Woodcuter || sObj == Obj.Pump ||
+            sObj == Obj.Pulverizer || sObj == Obj.Crafter || sObj == Obj.ChemicalPlant || sObj == Obj.ElectricSmelter || sObj == Obj.Repairer || sObj == Obj.LaserTurret ||
+            sObj == Obj.WindTurbine1 || sObj == Obj.WindTurbine2 || sObj == Obj.CombustionGenerator || sObj == Obj.SteamGenerator || sObj == Obj.SolarPanel1 ||
             sObj == Obj.Battery ||
             sObj == Obj.TransmissionTower
             ) { return true; }

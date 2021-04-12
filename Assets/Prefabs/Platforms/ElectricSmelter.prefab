@@ -107,7 +107,7 @@ MonoBehaviour:
   usingGuiType: 1
   itemSendingType: 1
   range: -1
-  maxEmptySpace: 0
+  maxEmptySpace: 100
   itemOnPlatform: []
   avalibleRes: 
   roadListOut: []

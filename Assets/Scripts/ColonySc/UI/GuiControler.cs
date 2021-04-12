@@ -136,7 +136,7 @@ public class GuiControler : MonoBehaviour
     public int resLenght;
     public int ObjLenght;
     public int TerrainLenght;
-    [SerializeField] private float updateGuiDelay = 0.3f;
+    private readonly float updateGuiDelay = 0.1f;
     [SerializeField] private Color disActiveButtonColor = new Color();
     [SerializeField] private Color activeButtonColor = new Color();
     private List<Transform> allPanelList;
@@ -191,10 +191,10 @@ public class GuiControler : MonoBehaviour
 
             foreach (Transform trans in nowOpenPanels)
             {
-                if      (trans == PlatformOptionT)   { UpdatePlatformOpction(); }
-                else if (trans == TurretPanelT)        { UpdateAmmoList(); }
-                else if (trans == ElectrickPanelT)     { UpdateElectrickGui(); }
-                else if (trans == PowerGeneratorPanelT){ UpdatePowerGeneratorGui(); }
+                if      (trans == PlatformOptionT)      UpdatePlatformOpction();
+                else if (trans == TurretPanelT)         UpdateAmmoList();
+                else if (trans == ElectrickPanelT)      UpdateElectrickGui();
+                else if (trans == PowerGeneratorPanelT) UpdatePowerGeneratorGui();
             }
 
             UpdateObjectItems();
@@ -381,7 +381,7 @@ public class GuiControler : MonoBehaviour
     }
 
     // open one close
-    public void CloseNowOpenGui()
+    public void CloseNowOpenGui(bool unselect=true)
     {
         if (nowOpenPanels.Count == 0) { return; }
 
@@ -401,10 +401,13 @@ public class GuiControler : MonoBehaviour
             HidePanel(nowOpenPanels[0]);
         }
 
-        useX = -1;
-        useY = -1;
-        useObj = Obj.None;
-        usePBSc = null;
+        if (unselect)
+        {
+            useX = -1;
+            useY = -1;
+            useObj = Obj.None;
+            usePBSc = null;
+        }
     }
     private void ShowPanel(Transform trans)
     {
@@ -573,8 +576,6 @@ public class GuiControler : MonoBehaviour
     public void ShowPlatformOpction(Obj objToShow, Obj terrain, int x, int y, PlatformBehavior PBSc)
     {
         CloseNowOpenGui();
-        //OpenGui in down        
-
         useX = x;
         useY = y;
         useObj = objToShow;
@@ -730,12 +731,12 @@ public class GuiControler : MonoBehaviour
             {
                 if (POSubtitle.GetComponent<Text>().text != "") { POSubtitle.GetComponent<Text>().text += " "; }
                 int net = ElectricityManager.instance.GetNetNumOfTTPos(useX, useY);
-                int charge = (int)ElectricityManager.instance.Networks[net].charge;
-                int maxCharge = (int)ElectricityManager.instance.Networks[net].maxCharge;
+                int charge = (int)ElectricityManager.instance.networks[net].charge;
+                int maxCharge = (int)ElectricityManager.instance.networks[net].maxCharge;
                 if (charge > maxCharge) { charge = maxCharge; }
                 POSubtitle.GetComponent<Text>().text += "Charge: " + charge + "/" + maxCharge + " ";
-                float production = ElectricityManager.instance.Networks[net].production;
-                float request = ElectricityManager.instance.Networks[net].request;
+                float production = ElectricityManager.instance.networks[net].production;
+                float request = ElectricityManager.instance.networks[net].request;
                 int delta = (int)(production - request);
                 if (delta >= 0) { POSubtitle.GetComponent<Text>().text += "+"; }
                 POSubtitle.GetComponent<Text>().text += delta + " kW";
@@ -748,7 +749,7 @@ public class GuiControler : MonoBehaviour
                 if (charge > batterySc.Capacity) { charge = batterySc.Capacity; }
                 POSubtitle.GetComponent<Text>().text += "Charge: " + (int)charge + "/" + (int)batterySc.Capacity + "kW";
             }
-            else if (useObj == Obj.CombustionGenerator || useObj == Obj.SteamGenerator || useObj == Obj.SolarPanel1)
+            else if (useObj == Obj.WindTurbine1 || useObj == Obj.WindTurbine2 || useObj == Obj.CombustionGenerator || useObj == Obj.SteamGenerator || useObj == Obj.SolarPanel1)
             {
                 if (POSubtitle.GetComponent<Text>().text != "") { POSubtitle.GetComponent<Text>().text += " "; }
                 Transform trans = WorldMenager.instance.GetTransforOfObj(useX, useY);
@@ -1150,29 +1151,34 @@ public class GuiControler : MonoBehaviour
     // Electrick Gui
     public void ShowElectrickGui()
     {
+        useTTSc = ElectricityManager.instance.GetTTOfMyPos(useX, useY);
+
         CloseNowOpenGui();
         ShowPanel(ElectrickPanelT);
 
-        useTTSc = ElectricityManager.instance.GetTTOfMyPos(useX, useY);
-
-        UpdateElectrickGui();
+        UpdateElectrickGui(false);
     }
-    private void UpdateElectrickGui()
+    private void UpdateElectrickGui(bool lerp=true)
     {
         if (useTTSc == null) { MessageManager.instance.ShowMessage(Messages.NoTransmisonTower); CloseNowOpenGui(); return; }
 
-        EleNetwork useNet = ElectricityManager.instance.Networks[useTTSc.network];
+        EleNetwork useNet = ElectricityManager.instance.networks[useTTSc.network];
+        //Debug.Log("n: " + useTTSc.network + "  p: " + useNet.production + " r: " + useNet.request);
+        float t, percent;
 
-        float t = useNet.production; if (t > useNet.maxProduction) { t = useNet.maxProduction; }
-        EGProductionSlider.value = t / useNet.maxProduction;
+        t = (useNet.production <= useNet.maxProduction) ? useNet.production : useNet.maxProduction;
+        percent = (useNet.maxProduction > 0) ? Mathf.Clamp(t / useNet.maxProduction, 0f, 1f) : 0;
+        EGProductionSlider.value = lerp ? Mathf.Lerp(percent, EGProductionSlider.value, 0.5f) : percent;
         EGPText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxProduction);
 
-        t = useNet.request; if (t > useNet.maxRequest) { t = useNet.maxRequest; }
-        EGRequestSlider.value = t / useNet.maxRequest;
+        t = (useNet.request <= useNet.maxRequest) ? useNet.request : useNet.maxRequest;
+        percent = (useNet.maxRequest > 0) ? Mathf.Clamp(t / useNet.maxRequest, 0f, 1f) : 0;
+        EGRequestSlider.value = lerp ? Mathf.Lerp(percent, EGRequestSlider.value, 0.5f) : percent;
         EGRText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxRequest);
 
-        t = useNet.charge; if (t > useNet.maxCharge) { t = useNet.maxCharge; }
-        EGChargeSlider.value = t / useNet.maxCharge;
+        t = (useNet.charge <= useNet.maxCharge) ? useNet.charge : useNet.maxCharge;
+        percent = (useNet.maxCharge > 0) ? Mathf.Clamp(t / useNet.maxCharge, 0f, 1f) : 0;
+        EGChargeSlider.value = lerp ? Mathf.Lerp(percent, EGChargeSlider.value, 0.5f): percent;
         EGCText.text = string.Format("{0}/{1} kW", (int)t, useNet.maxCharge);
     }
 
@@ -1186,9 +1192,9 @@ public class GuiControler : MonoBehaviour
         useSteamGeneratorSc = tra.GetComponent<SteemGenerator>();
         useEleUserSc = tra.GetComponent<ElectricityUser>();
 
-        UpdatePowerGeneratorGui();
+        UpdatePowerGeneratorGui(false);
     }
-    private void UpdatePowerGeneratorGui()
+    private void UpdatePowerGeneratorGui(bool lerp=true)
     {
         if (useSteamGeneratorSc.useFuel == Res.None)
         {
@@ -1218,8 +1224,8 @@ public class GuiControler : MonoBehaviour
         if (useEleUserSc != null)
         {
             float percent = 0f;
-            if(usePBSc.working && useEleUserSc.maxEnergyPerSec > 0f) { percent = useEleUserSc.actEnergyPerSec / useEleUserSc.maxEnergyPerSec; }
-            PGGProductionSlider.value = percent;
+            if(usePBSc.working && useEleUserSc.maxEnergyPerSec > 0f) { percent = 1f - useEleUserSc.actCharge / useEleUserSc.maxCharge; }
+            PGGProductionSlider.value = lerp ? Mathf.Lerp(percent, PGGProductionSlider.value, 0.5f) : percent;
         }
     }
 

@@ -19,6 +19,7 @@ public class PlatformBehavior : MonoBehaviour
     public bool working = false;
 
     public float startTaskTime;
+    public float timeToEndCraft = -1;
     public float taskTime = 0;
     public PlatfotmGUIType usingGuiType = PlatfotmGUIType.Storage;
     public PlatformItemSendingType itemSendingType = PlatformItemSendingType.Storage;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7624426740603167513}
   - component: {fileID: 3546160102538994823}
   - component: {fileID: 4567341555092303969}
+  - component: {fileID: -7697836888175872202}
   m_Layer: 0
   m_Name: Farm
   m_TagString: Platform
@@ -97,12 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeConectedIn: 1
   canBeConnectedOut: 1
-  canChangeFiltr: 1
   canGetRes: 1
   canDronesGetRes: 1
   keepAmountOfRequestedItems: 0
   working: 0
   startTaskTime: 0
+  timeToEndCraft: -1
   taskTime: 0
   usingGuiType: 2
   itemSendingType: 2
@@ -129,3 +130,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   nowUseRecipeNumber: 0
+  needEnergy: 2
+--- !u!114 &-7697836888175872202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431315630196081347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a57a763c723629f46b4d4dba53676d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEnergyPerSec: 0
+  x: 0
+  y: 0
+  actCharge: 0
+  maxCharge: 0

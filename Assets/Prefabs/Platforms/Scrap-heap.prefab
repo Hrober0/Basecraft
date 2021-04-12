@@ -97,15 +97,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeConectedIn: 1
   canBeConnectedOut: 1
-  canChangeFiltr: 1
   canGetRes: 1
   canDronesGetRes: 1
   keepAmountOfRequestedItems: 0
   working: 0
   startTaskTime: 0
+  timeToEndCraft: -1
   taskTime: 0
-  usingGuiType: 2
-  itemSendingType: 2
+  usingGuiType: 1
+  itemSendingType: 1
   range: -1
   maxEmptySpace: 20
   itemOnPlatform: []

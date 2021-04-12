@@ -103,7 +103,7 @@ public class Turret : MonoBehaviour
     {
         if (TargetT == null)
         {
-            if (bulletE == BulletsE.Laser) { if (LineR.enabled == true) { eleUSc.actEnergyPerSec = 0f; LineR.enabled = false; } }
+            if (bulletE == BulletsE.Laser) { if (LineR.enabled == true) { LineR.enabled = false; } }
             if (wasTarget) { TryFindEnemyBase(); }
             return; 
         }
@@ -121,19 +121,18 @@ public class Turret : MonoBehaviour
         if (dif < 0) { dif *= -1; }
         if (dif > 10) 
         {
-            if (bulletE == BulletsE.Laser) { if (LineR.enabled == true) { eleUSc.actEnergyPerSec = 0f; LineR.enabled = false; } }
+            if (bulletE == BulletsE.Laser) { if (LineR.enabled == true) { LineR.enabled = false; } }
             return;
         }
 
         //laser
         if (bulletE == BulletsE.Laser)
         {
-            if (eleUSc.actCharge < needEnergy * Time.deltaTime) { if (LineR.enabled == true) { eleUSc.actEnergyPerSec = 0f; LineR.enabled = false; } return; }
+            if (eleUSc.actCharge < needEnergy * Time.deltaTime) { if (LineR.enabled == true) { LineR.enabled = false; } return; }
 
             if (LineR.enabled == false) { LineR.enabled = true; }
 
             eleUSc.actCharge -= needEnergy * Time.deltaTime;
-            eleUSc.actEnergyPerSec = needEnergy;
 
             float distance = Vector2.Distance(transform.position, TargetT.position);
             LineR.SetPosition(1, new Vector2(distance, 0));

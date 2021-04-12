@@ -95,7 +95,7 @@ public enum Technologies
     TransmissionTower=11, CombustionGenerator=12, SteamGenerator=13, SolarPanel1=14,
     BatteryStorage=15, Repairer=16,
     Connection1=17, Connection2=18, Connection3=19,
-    Warehouse1=20, Warehouse2=21, Junkyard=22, Connector=23, FastConnector=24, Launchpad=25, SpaceRequester=27,
+    Warehouse1=20, Warehouse2=21, Junkyard=22, Connector=23, FastConnector=24, Launchpad=25, PlaceHolder=26, SpaceRequester=27,
     Quarry=28,
     Pulverizer=29, CopperOre=30, CopperDust=31, IronDust=32, Biomass=33, StoneCrushing=34, Silicon=35,
     Smelter=36, ElectricSmelter=37, Glass=38, StoneBrick=39, CopperPlate=40, IronPlate=41, CoalSmelting=42, GraphiteRod=43, Steel=44,

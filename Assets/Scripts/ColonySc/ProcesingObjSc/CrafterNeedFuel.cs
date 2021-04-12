@@ -11,7 +11,6 @@ public class CrafterNeedFuel : MonoBehaviour
     [Header("Variables")]
     public int nowUseRecipeNumber;
     private float craftTime = 1f;
-    public float timeToEndCraft = 0f;
 
     [Header("Fuel")]
     public Res useFuel = Res.None;
@@ -21,48 +20,45 @@ public class CrafterNeedFuel : MonoBehaviour
     private float nextAvaTimeToUpdateFuel = 0f;
     public readonly int maxQuaOfFuel = 5;
 
-    private PlatformBehavior PlatformB;
+    private PlatformBehavior platformB;
 
-    private List<ItemRAQ> ItemIn;
-    private List<ItemRAQ> ItemOut;
+    private List<ItemRAQ> itemIn;
+    private List<ItemRAQ> itemOut;
 
     void Awake()
     {
-        PlatformB = gameObject.GetComponent<PlatformBehavior>();
+        platformB = gameObject.GetComponent<PlatformBehavior>();
 
-        PlatformB.usingGuiType = PlatfotmGUIType.Procesing;
-        PlatformB.itemSendingType = PlatformItemSendingType.Procesing;
+        platformB.usingGuiType = PlatfotmGUIType.Procesing;
+        platformB.itemSendingType = PlatformItemSendingType.Procesing;
 
-        PlatformB.taskTime = craftTime;
+        platformB.taskTime = craftTime;
 
-        PlatformB.SetAllCanInItem(false);
+        platformB.SetAllCanInItem(false);
 
         nowUseRecipeNumber = -1;
         SetResToCraft(0);
     }
     void Start()
     {
-        InvokeRepeating("TryCraft", WorldMenager.instance.frequencyOfChecking, WorldMenager.instance.frequencyOfChecking);
+        Invoke(nameof(TryCraft), 1);
     }
     private void Update()
     {
         nextAvaTimeToUpdateFuel -= Time.deltaTime;
         if (percRemFuel <= 0f)
         {
-            if (nextAvaTimeToUpdateFuel > WorldMenager.instance.worldTime)
-            {
-                return;
-            }
+            if (nextAvaTimeToUpdateFuel > WorldMenager.instance.worldTime) return;
             nextAvaTimeToUpdateFuel = WorldMenager.instance.worldTime + WorldMenager.instance.frequencyOfChecking;
             UpdateFuel();
-            if (percRemFuel <= 0f) { PlatformB.working = false; return; }
-            else if (CanCraftRes()) { PlatformB.working = true; PlatformB.startTaskTime = WorldMenager.instance.worldTime - (PlatformB.taskTime - timeToEndCraft); }
+            if (percRemFuel <= 0f) { platformB.working = false; return; }
+            else if (CanCraftRes()) { platformB.working = true; platformB.startTaskTime = WorldMenager.instance.worldTime - (platformB.taskTime - platformB.timeToEndCraft); }
         }
 
-        if (PlatformB.working == false) { return; }
+        if (platformB.working == false) return;
         percRemFuel -= 10.00f / subFuel * Time.deltaTime;
-        timeToEndCraft -= Time.deltaTime;
-        if (timeToEndCraft <= 0)
+        platformB.timeToEndCraft -= Time.deltaTime;
+        if (platformB.timeToEndCraft <= 0)
         {
             Craft();
         }
@@ -76,99 +72,104 @@ public class CrafterNeedFuel : MonoBehaviour
 
         nowUseRecipeNumber = recipeNuber;
 
-        for (int i = 0; i < PlatformB.itemOnPlatform.Length; i++)
+        for (int i = 0; i < platformB.itemOnPlatform.Length; i++)
         {
             if ((Res)i != useFuel)
             {
-                PlatformB.itemOnPlatform[i].maxQua = 0;
-                PlatformB.itemOnPlatform[i].canOut = true;
+                platformB.itemOnPlatform[i].maxQua = 0;
+                platformB.itemOnPlatform[i].canOut = true;
             }
         }
 
         if (nowUseRecipeNumber == 0)
         {
-            PlatformB.UpdateImageR(Res.None);
-            PlatformB.working = false;
-            PlatformB.SetAllCanInItem(false);
+            platformB.UpdateImageR(Res.None);
+            platformB.working = false;
+            platformB.SetAllCanInItem(false);
             if (useFuel != Res.None)
             {
-                PlatformB.itemOnPlatform[(int)useFuel].canIn = true;
-                PlatformB.itemOnPlatform[(int)useFuel].maxQua = maxQuaOfFuel;
+                platformB.itemOnPlatform[(int)useFuel].canIn = true;
+                platformB.itemOnPlatform[(int)useFuel].maxQua = maxQuaOfFuel;
             }
             else
             {
                 for (int i = 0; i < AllRecipes.instance.fuelList.Count; i++)
                 {
                     Res fuel = AllRecipes.instance.fuelList[i].fuelRes;
-                    PlatformB.itemOnPlatform[(int)fuel].canIn = true;
-                    PlatformB.itemOnPlatform[(int)fuel].maxQua = maxQuaOfFuel;
+                    platformB.itemOnPlatform[(int)fuel].canIn = true;
+                    platformB.itemOnPlatform[(int)fuel].maxQua = maxQuaOfFuel;
                 }
             }
-            PlatformB.UpdateAvalibleResList();
-            ItemIn = new List<ItemRAQ>();
-            ItemOut = new List<ItemRAQ>();
+            platformB.UpdateAvalibleResList();
+            itemIn = new List<ItemRAQ>();
+            itemOut = new List<ItemRAQ>();
             return;
         }
 
-        PlatformB.canGetRes = true;
+        platformB.canGetRes = true;
 
         CraftRecipe nowUseRecipe = AllRecipes.instance.GetCraftRecipes(recipeObj)[nowUseRecipeNumber - 1];
 
-        PlatformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
+        platformB.UpdateImageR(nowUseRecipe.ItemOut[0].res);
 
         for (int i = 0; i < nowUseRecipe.ItemIn.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemIn[i].res;
             int qua = nowUseRecipe.ItemIn[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
-            PlatformB.itemOnPlatform[resIndex].canIn = true;
-            PlatformB.itemOnPlatform[resIndex].canOut = false;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].canIn = true;
+            platformB.itemOnPlatform[resIndex].canOut = false;
         }
-        ItemIn = nowUseRecipe.ItemIn;
+        itemIn = nowUseRecipe.ItemIn;
         for (int i = 0; i < nowUseRecipe.ItemOut.Count; i++)
         {
             int resIndex = (int)nowUseRecipe.ItemOut[i].res;
             int qua = nowUseRecipe.ItemOut[i].qua;
-            PlatformB.itemOnPlatform[resIndex].maxQua = qua * 2;
+            platformB.itemOnPlatform[resIndex].maxQua = qua * 2;
         }
-        ItemOut = nowUseRecipe.ItemOut;
+        itemOut = nowUseRecipe.ItemOut;
 
-        PlatformB.UpdateAvalibleResList();
+        platformB.UpdateAvalibleResList();
         craftTime = nowUseRecipe.exeTime / speedMultiplayer;
-        PlatformB.taskTime = craftTime;
+        platformB.taskTime = craftTime;
     }
 
     private void TryCraft()
     {
-        if (nowUseRecipeNumber == 0 || PlatformB.working || CanCraftRes() == false || percRemFuel <= 0f) { return; }
-        PlatformB.startTaskTime = WorldMenager.instance.worldTime;
-        PlatformB.working = true;
-        timeToEndCraft = craftTime;
+        if (nowUseRecipeNumber == 0 || platformB.working || CanCraftRes() == false || percRemFuel <= 0f)
+        {
+            Invoke(nameof(TryCraft), 1); 
+            return; 
+        }
+        platformB.startTaskTime = WorldMenager.instance.worldTime;
+        platformB.working = true;
+        platformB.timeToEndCraft = craftTime;
     }
     private void Craft()
     {
-        for (int i = 0; i < ItemIn.Count; i++)
+        for (int i = 0; i < itemIn.Count; i++)
         {
-            PlatformB.AddItem(ItemIn[i].res, -ItemIn[i].qua);
+            platformB.AddItem(itemIn[i].res, -itemIn[i].qua);
         }
-        for (int i = 0; i < ItemOut.Count; i++)
+        for (int i = 0; i < itemOut.Count; i++)
         {
-            PlatformB.AddItem(ItemOut[i].res, ItemOut[i].qua, true);
+            platformB.AddItem(itemOut[i].res, itemOut[i].qua, true);
         }
 
-        PlatformB.working = false;
+        platformB.working = false;
+        TryCraft();
     }
 
     private bool CanCraftRes()
     {
-        for (int i = 0; i < ItemOut.Count; i++)
+        for (int i = 0; i < itemOut.Count; i++)
         {
-            if (PlatformB.itemOnPlatform[(int)ItemOut[i].res].qua + ItemOut[i].qua > PlatformB.itemOnPlatform[(int)ItemOut[i].res].maxQua)
+            if (platformB.itemOnPlatform[(int)itemOut[i].res].qua + itemOut[i].qua > platformB.itemOnPlatform[(int)itemOut[i].res].maxQua)
             { return false; }
         }
-        for (int i = 0; i < ItemIn.Count; i++)
+        for (int i = 0; i < itemIn.Count; i++)
         {
-            if (PlatformB.itemOnPlatform[(int)ItemIn[i].res].qua < ItemIn[i].qua)
+            if (platformB.itemOnPlatform[(int)itemIn[i].res].qua < itemIn[i].qua)
             { return false; }
         }
         return true;
@@ -177,7 +178,7 @@ public class CrafterNeedFuel : MonoBehaviour
     private void UpdateFuel()
     {
         if (percRemFuel > 0f) { return; }
-        if (useFuel == Res.None || PlatformB.itemOnPlatform[(int)useFuel].qua <= 0)
+        if (useFuel == Res.None || platformB.itemOnPlatform[(int)useFuel].qua <= 0)
         {
             Fuel foundFuel = FindAvaFuel();
             if (foundFuel == null)
@@ -186,11 +187,11 @@ public class CrafterNeedFuel : MonoBehaviour
                 for (int i = 0; i < AllRecipes.instance.fuelList.Count; i++)
                 {
                     Res fuel = AllRecipes.instance.fuelList[i].fuelRes;
-                    PlatformB.itemOnPlatform[(int)fuel].canIn = true;
+                    platformB.itemOnPlatform[(int)fuel].canIn = true;
                     if (IsFuelUseingInCrafting(fuel) == false)
                     {
-                        PlatformB.itemOnPlatform[(int)fuel].maxQua = maxQuaOfFuel;
-                        PlatformB.itemOnPlatform[(int)fuel].canOut = false;
+                        platformB.itemOnPlatform[(int)fuel].maxQua = maxQuaOfFuel;
+                        platformB.itemOnPlatform[(int)fuel].canOut = false;
                     }
                 }
                 useFuel = Res.None;
@@ -204,14 +205,14 @@ public class CrafterNeedFuel : MonoBehaviour
                 useFuel = foundFuel.fuelRes;
                 subFuel = foundFuel.energyValue;
                 if (subFuel <= 0) { subFuel = 1; }
-                PlatformB.AddItem(useFuel, -1);
+                platformB.AddItem(useFuel, -1);
                 percRemFuel = 1f;
             }
         }
         else
         {
             //Debug.Log("uzupełniam paliwo");
-            PlatformB.AddItem(useFuel, -1);
+            platformB.AddItem(useFuel, -1);
             percRemFuel = 1f;
         }
 
@@ -221,7 +222,7 @@ public class CrafterNeedFuel : MonoBehaviour
             for (int i = fuleQua; i >= 0; i--)
             {
                 Res fuel = AllRecipes.instance.fuelList[i].fuelRes;
-                if (PlatformB.itemOnPlatform[(int)fuel].qua > 0) { return AllRecipes.instance.fuelList[i]; }
+                if (platformB.itemOnPlatform[(int)fuel].qua > 0) { return AllRecipes.instance.fuelList[i]; }
             }
             return null;
         }
@@ -233,29 +234,29 @@ public class CrafterNeedFuel : MonoBehaviour
             Res fuel = fuelC.fuelRes;
             if (IsFuelUseingInCrafting(fuel) == false)
             {
-                PlatformB.RemoveResFromAvalibleResList(fuel);
-                PlatformB.itemOnPlatform[(int)fuel].maxQua = 0;
-                PlatformB.itemOnPlatform[(int)fuel].canIn = false;
-                PlatformB.itemOnPlatform[(int)fuel].canOut = true;
+                platformB.RemoveResFromAvalibleResList(fuel);
+                platformB.itemOnPlatform[(int)fuel].maxQua = 0;
+                platformB.itemOnPlatform[(int)fuel].canIn = false;
+                platformB.itemOnPlatform[(int)fuel].canOut = true;
             }
         }
 
-        PlatformB.itemOnPlatform[(int)foundFuelRes].canIn = true;
+        platformB.itemOnPlatform[(int)foundFuelRes].canIn = true;
         if (IsFuelUseingInCrafting(foundFuelRes) == false)
         {
-            PlatformB.itemOnPlatform[(int)foundFuelRes].maxQua = maxQuaOfFuel;
-            PlatformB.itemOnPlatform[(int)foundFuelRes].canOut = false;
+            platformB.itemOnPlatform[(int)foundFuelRes].maxQua = maxQuaOfFuel;
+            platformB.itemOnPlatform[(int)foundFuelRes].canOut = false;
         }
     }
     private bool IsFuelUseingInCrafting(Res fuel)
     {
-        for (int i = 0; i < ItemIn.Count; i++)
+        for (int i = 0; i < itemIn.Count; i++)
         {
-            if (ItemIn[i].res == fuel) { return true; }
+            if (itemIn[i].res == fuel) { return true; }
         }
-        for (int i = 0; i < ItemOut.Count; i++)
+        for (int i = 0; i < itemOut.Count; i++)
         {
-            if (ItemOut[i].res == fuel) { return true; }
+            if (itemOut[i].res == fuel) { return true; }
         }
         return false;
     }

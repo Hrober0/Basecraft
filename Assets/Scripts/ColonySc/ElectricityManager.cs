@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class EleNetwork
 {
     public List<Vector3Int> TransTowersP = new List<Vector3Int>(); //pos + TT index
@@ -25,14 +26,14 @@ public class ElectricityManager : MonoBehaviour
         instance = this;
     }
 
-    public List<EleNetwork> Networks = new List<EleNetwork>();
+    public List<EleNetwork> networks = new List<EleNetwork>();
     private List<ElectricityUser> AllGenerators = new List<ElectricityUser>();
     private List<ElectricityUser> AllRequesters = new List<ElectricityUser>();
     public List<TransmissionTower> AllTransTowers = new List<TransmissionTower>();
     private List<Battery> AllBatteries = new List<Battery>();
 
-    public int tTRange = 7;
-    [SerializeField]private float updateDelay = 0.1f;
+    public int tTRange = 4;
+    [SerializeField] private float updateDelay = 0.1f;
     private float timeToUpdate = 0.1f;
 
     private void Update()
@@ -47,52 +48,44 @@ public class ElectricityManager : MonoBehaviour
 
     private void UpdateCharge()
     {
-        for (int n = 0; n < Networks.Count; n++)
+        foreach (EleNetwork net in networks)
         {
-            EleNetwork net = Networks[n];
-            ElectricityUser chG;
-
-            net.production = 0f;
-            net.request = 0f;
-
             //requesters
             float toLoad = 0f;
             int qua = 0;
-            for (int i = 0; i < net.Requesters.Count; i++)
+            foreach (ElectricityUser requester in net.Requesters)
             {
-                chG = net.Requesters[i];
-                net.request += chG.actEnergyPerSec;
-                if (chG.actCharge < chG.maxCharge)
+                if (requester.actCharge < requester.maxCharge)
                 {
-                    float energy = chG.maxEnergyPerSec * updateDelay;
+                    float energy = requester.maxEnergyPerSec * updateDelay;
                     toLoad += energy;
                     qua++;
                 }
             }
             if (toLoad > net.charge) { toLoad = net.charge; }
+            net.request = toLoad / updateDelay;
             float avrageLoad = toLoad / qua;
             net.charge -= toLoad;
-            for (int i = 0; i < net.Requesters.Count; i++)
+            foreach (ElectricityUser requester in net.Requesters)
             {
-                chG = net.Requesters[i];
-                if (chG.actCharge < chG.maxCharge)
+                if (requester.actCharge < requester.maxCharge)
                 {
-                    chG.actCharge += avrageLoad;
+                    requester.actCharge += avrageLoad;
                 }
             }
 
             //generators
-            float maxCharge = net.maxCharge + 10f;
-            for (int i = 0; i < net.Generators.Count; i++)
+            net.production = 0f;
+            float maxCharge = net.maxCharge;
+            foreach(ElectricityUser generator in net.Generators)
             {
-                chG = net.Generators[i];
-                net.production += chG.actEnergyPerSec;
-                if(net.charge < maxCharge)
+                if (net.charge < maxCharge + generator.maxEnergyPerSec)
                 {
-                    float energy = chG.maxEnergyPerSec * updateDelay * 1.1f;
-                    if (chG.actCharge > energy)
+                    float energy = generator.maxEnergyPerSec * updateDelay;
+                    if (generator.actCharge >= energy)
                     {
-                        chG.actCharge -= energy;
+                        net.production += generator.maxEnergyPerSec;
+                        generator.actCharge -= energy;
                         net.charge += energy;
                     }
                 }
@@ -100,9 +93,9 @@ public class ElectricityManager : MonoBehaviour
 
             //baterys
             float chargePerBatery = net.charge / net.Batteries.Count;
-            for (int i = 0; i < net.Batteries.Count; i++)
+            foreach(Battery bettery in net.Batteries)
             {
-                net.Batteries[i].charge = chargePerBatery;
+                bettery.charge = chargePerBatery;
             }
         }
     }
@@ -110,12 +103,11 @@ public class ElectricityManager : MonoBehaviour
 
     public int GetNetNumOfTTPos(int x, int y)
     {
-        for (int n = 0; n < Networks.Count; n++)
+        for (int n = 0; n < networks.Count; n++)
         {
-            for (int w = 0; w < Networks[n].TransTowersP.Count; w++)
+            for (int w = 0; w < networks[n].TransTowersP.Count; w++)
             {
-                if (Networks[n].TransTowersP[w].x == x && Networks[n].TransTowersP[w].y == y)
-                { return n; }
+                if (networks[n].TransTowersP[w].x == x && networks[n].TransTowersP[w].y == y) return n;
             }
         }
         return -1;
@@ -123,18 +115,19 @@ public class ElectricityManager : MonoBehaviour
     public int GetNetNumOfMyPos(int x, int y)
     {
         int rl = tTRange * tTRange;
-        int o;
+        int dx, dy, o;
         EleNetwork network;
-        Vector3Int ttp;
 
-        for (int n = 0; n < Networks.Count; n++)
+        for (int n = 0; n < networks.Count; n++)
         {
-            network = Networks[n];
-            for (int w = 0; w < network.TransTowersP.Count; w++)
+            network = networks[n];
+            foreach (Vector3Int ttp in network.TransTowersP)
             {
-                ttp = network.TransTowersP[w];
-                o = (ttp.x - x) * (ttp.x - x) + (ttp.y - y) * (ttp.y - y);
-                if (0 <= rl) { return n; }
+                dx = ttp.x - x;
+                dy = ttp.y - y;
+                o = dx * dx + dy * dy;
+                //Debug.Log("Check pos: " + x + " " + y + " tt: " + ttp + " odl: " + o + " <= " + rl);
+                if (o <= rl) return n;
             }
         }
         return -1;
@@ -146,9 +139,9 @@ public class ElectricityManager : MonoBehaviour
         EleNetwork network;
         Vector3Int ttp;
 
-        for (int n = 0; n < Networks.Count; n++)
+        for (int n = 0; n < networks.Count; n++)
         {
-            network = Networks[n];
+            network = networks[n];
             for (int w = 0; w < network.TransTowersP.Count; w++)
             {
                 ttp = network.TransTowersP[w];
@@ -162,55 +155,55 @@ public class ElectricityManager : MonoBehaviour
     public void AddRequester(ElectricityUser GenSc)
     {
         AllRequesters.Add(GenSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     public void RemoveRequester(ElectricityUser GenSc)
     {
         AllRequesters.Remove(GenSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     private void AddRequesterToNet(ElectricityUser GenSc)
     {
         int n = GetNetNumOfMyPos(GenSc.x, GenSc.y);
-        if (n == -1) { return; }
-        Networks[n].Requesters.Add(GenSc);
-        Networks[n].maxRequest += GenSc.maxEnergyPerSec;
+        if (n == -1) return;
+        networks[n].Requesters.Add(GenSc);
+        networks[n].maxRequest += GenSc.maxEnergyPerSec;
     }
 
     public void AddGenerator(ElectricityUser GenSc)
     {
         AllGenerators.Add(GenSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     public void RemoveGenerator(ElectricityUser GenSc)
     {
         AllGenerators.Remove(GenSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     private void AddGeneratorToNet(ElectricityUser GenSc)
     {
         int n = GetNetNumOfMyPos(GenSc.x, GenSc.y);
-        if (n == -1) { return; }
-        Networks[n].Generators.Add(GenSc);
-        Networks[n].maxProduction += GenSc.maxEnergyPerSec;
+        if (n == -1) return;
+        networks[n].Generators.Add(GenSc);
+        networks[n].maxProduction += GenSc.maxEnergyPerSec;
     }
 
     public void AddBattery(Battery BatSc)
     {
         AllBatteries.Add(BatSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     public void RemoveBattery(Battery BatSc)
     {
         AllBatteries.Remove(BatSc);
-        if (WorldMenager.instance.loadingWorld == false) { ReloadNetwork(); }
+        if (WorldMenager.instance.loadingWorld == false) ReloadNetwork();
     }
     private void AddBatteryToNet(Battery BatSc)
     {
         int n = GetNetNumOfMyPos(BatSc.x, BatSc.y);
         if (n == -1) { return; }
-        Networks[n].Batteries.Add(BatSc);
-        Networks[n].maxCharge += BatSc.Capacity;
+        networks[n].Batteries.Add(BatSc);
+        networks[n].maxCharge += BatSc.Capacity;
     }
 
     public void AddTT(TransmissionTower tt)
@@ -227,7 +220,7 @@ public class ElectricityManager : MonoBehaviour
     {
         //Debug.Log("reload Electricity network");
 
-        Networks = new List<EleNetwork>();
+        networks = new List<EleNetwork>();
         List<Vector3Int> tempP = new List<Vector3Int>();
         List<Vector3Int> pTA = new List<Vector3Int>();
         for (int i = 0; i < AllTransTowers.Count; i++)
@@ -247,8 +240,8 @@ public class ElectricityManager : MonoBehaviour
             Vector3Int mP = tempP[0];
             tempP.RemoveAt(0);
             pTA.Add(mP);
-            Networks.Add(new EleNetwork());
-            Networks[net].TransTowersP.Add(mP);
+            networks.Add(new EleNetwork());
+            networks[net].TransTowersP.Add(mP);
 
             while (pTA.Count > 0)
             {
@@ -265,7 +258,7 @@ public class ElectricityManager : MonoBehaviour
                         tempP.RemoveAt(i - nDI);
                         nDI++;
                         pTA.Add(cP);
-                        Networks[net].TransTowersP.Add(cP);
+                        networks[net].TransTowersP.Add(cP);
                     }
                 }
 
@@ -274,14 +267,14 @@ public class ElectricityManager : MonoBehaviour
             }
         }
 
-        //Debug.Log("Created Electricity network: " + AllNet.Count);
+        //Debug.Log("Created Electricity network: " + networks.Count);
 
         //reload all transmison towers
-        for (int n = 0; n < Networks.Count; n++)
+        for (int n = 0; n < networks.Count; n++)
         {
-            for (int w = 0; w < Networks[n].TransTowersP.Count; w++)
+            for (int w = 0; w < networks[n].TransTowersP.Count; w++)
             {
-                int trueIndex = Networks[n].TransTowersP[w].z;
+                int trueIndex = networks[n].TransTowersP[w].z;
                 AllTransTowers[trueIndex].network = n;
             }
         }
@@ -305,10 +298,10 @@ public class ElectricityManager : MonoBehaviour
         }
 
         //set charge in nettworks
-        for (int n = 0; n < Networks.Count; n++)
+        for (int n = 0; n < networks.Count; n++)
         {
             float charge = 0f;
-            EleNetwork network = Networks[n];
+            EleNetwork network = networks[n];
             for (int i = 0; i < network.Batteries.Count; i++)
             {
                 charge += network.Batteries[i].charge;

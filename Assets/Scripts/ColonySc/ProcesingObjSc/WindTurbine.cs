@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class SolarPanel : MonoBehaviour
+public class WindTurbine : MonoBehaviour
 {
-    [SerializeField] private float productionPerSec = 5f;
+    [SerializeField] private float productionPerSec = 1f;
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private Transform rotorTrans = null;
     private float charge;
     private ElectricityUser eleUSc;
     void Start()
@@ -17,5 +21,6 @@ public class SolarPanel : MonoBehaviour
     void Update()
     {
         eleUSc.actCharge = charge;
+        rotorTrans.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
     }
 }

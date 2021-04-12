@@ -333,11 +333,11 @@ public class WorldMenager : MonoBehaviour
                     GameObject platformGO = GetTransforOfObj(platformD.x, platformD.y).gameObject;
                     PlatformBehavior platformSc = platformGO.GetComponent<PlatformBehavior>();
 
-                    //sethelth
+                    // set health
                     Square square = WorldGrid.GetSquare(platformD.x, platformD.y);
                     square.health = platformD.health;
-                    WorldGrid.SetSquare(square);
 
+                    WorldGrid.SetSquare(square);
 
                     switch ((Obj)platformD.obj)
                     {
@@ -351,16 +351,14 @@ public class WorldMenager : MonoBehaviour
 
                     Obj objType = (Obj)platformD.obj;
 
+                    platformSc.startTaskTime = platformD.startTaskTime;
+                    platformSc.timeToEndCraft = platformD.timeToEndCraft;
+                    if (platformD.timeToEndCraft > 0) platformSc.working = true;
+
                     if (AllRecipes.instance.IsObjHaveCrafterNeedFuelSc(objType))
                     {
                         CrafterNeedFuel crafterFuel = platformGO.GetComponent<CrafterNeedFuel>();
                         crafterFuel.SetResToCraft(platformD.useRecipe);
-                        platformSc.startTaskTime = platformD.startTaskTime;
-                        if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
-                        {
-                            platformSc.working = true;
-                            crafterFuel.timeToEndCraft = platformSc.startTaskTime + platformSc.taskTime - worldTime;
-                        }
                         Res fuel = (Res)ReadVeribal(0, 0);
                         crafterFuel.useFuel = fuel;
                         crafterFuel.percRemFuel = ReadVeribal(1, 0) / 100.00f;
@@ -371,11 +369,6 @@ public class WorldMenager : MonoBehaviour
                         CrafterNeedEnergy crafterEnergy = platformGO.GetComponent<CrafterNeedEnergy>();
                         crafterEnergy.SetResToCraft(platformD.useRecipe);
                         platformSc.startTaskTime = platformD.startTaskTime;
-                        if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
-                        {
-                            platformSc.working = true;
-                            crafterEnergy.timeToEndCraft = platformSc.startTaskTime + platformSc.taskTime - worldTime;
-                        }
                         platformGO.GetComponent<ElectricityUser>().actCharge = ReadVeribal(0, 0) / 100.00f;
                     }
                     else
@@ -386,10 +379,8 @@ public class WorldMenager : MonoBehaviour
                                 Farm farmrSc = platformGO.GetComponent<Farm>();
                                 farmrSc.SetResToCraft(platformD.useRecipe);
                                 platformSc.startTaskTime = platformD.startTaskTime;
-                                if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
+                                if (platformD.timeToEndCraft > 0)
                                 {
-                                    platformSc.working = true;
-                                    farmrSc.Invoke("DoTask", platformD.startTaskTime + platformSc.taskTime - worldTime);
                                     farmrSc.FoundPlaceToPlant = new Vector2Int(ReadVeribal(0, 0), ReadVeribal(1, 0));
                                     farmrSc.FoundPlaceToCollect = new Vector2Int(ReadVeribal(2, 0), ReadVeribal(3, 0));
                                 }
@@ -397,40 +388,25 @@ public class WorldMenager : MonoBehaviour
                             case Obj.Woodcuter:
                                 WoodCuter woodCuterSc = platformGO.GetComponent<WoodCuter>();
                                 platformSc.startTaskTime = platformD.startTaskTime;
-                                if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
+                                if (platformD.timeToEndCraft > 0)
                                 {
-                                    platformSc.working = true;
-                                    woodCuterSc.Invoke("CuttTree", platformD.startTaskTime + platformSc.taskTime - worldTime);
                                     woodCuterSc.TreePosition = new Vector2Int(ReadVeribal(0, 0), ReadVeribal(1, 0));
                                 }
                                 break;
                             case Obj.Quarry:
-                                StoneMine mineSc = platformGO.GetComponent<StoneMine>();
+                                Quarry mineSc = platformGO.GetComponent<Quarry>();
                                 platformSc.startTaskTime = platformD.startTaskTime;
-                                if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
-                                {
-                                    platformSc.working = true;
-                                    mineSc.Invoke("Mine", platformD.startTaskTime + platformSc.taskTime - worldTime);
-                                }
                                 break;
                             case Obj.Pump:
                                 Pump pumpSc = platformGO.GetComponent<Pump>();
                                 platformSc.startTaskTime = platformD.startTaskTime;
-                                if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
-                                {
-                                    platformSc.working = true;
-                                    pumpSc.Invoke("Craft", platformD.startTaskTime + platformSc.taskTime - worldTime);
-                                }
                                 break;
                             case Obj.Planter:
                                 Planter planterSc = platformGO.GetComponent<Planter>();
                                 platformSc.startTaskTime = platformD.startTaskTime;
-                                if (worldTime - platformSc.taskTime < platformSc.startTaskTime)
+                                if (platformD.timeToEndCraft > 0)
                                 {
-                                    platformSc.working = true;
-                                    planterSc.Invoke("PlantTree", platformD.startTaskTime + platformSc.taskTime - worldTime);
                                     planterSc.TreePosition = new Vector2Int(ReadVeribal(0, 0), ReadVeribal(1, 0));
-
                                 }
                                 break;
                             case Obj.CombustionGenerator:
@@ -630,12 +606,10 @@ public class WorldMenager : MonoBehaviour
         //Reload
         SceneLoader.instance.SetPostscript("Starting");
         TerrainManager.instance.UpdateAllMoutains();
-        DronControler.instance.ReloadDSNetwork();
-        ElectricityManager.instance.ReloadNetwork();
+        
 
         //finish loading
-        Debug.Log("Finish loading");
-        Invoke("FinishLoading", 0.01f);
+        Invoke(nameof(FinishLoading), 0.01f);
 
         //wass error
         if (errorLog != "")
@@ -658,7 +632,10 @@ public class WorldMenager : MonoBehaviour
     }
     private void FinishLoading()
     {
+        Debug.Log("Finish loading");
         loadingWorld = false;
+        DronControler.instance.ReloadDSNetwork();
+        ElectricityManager.instance.ReloadNetwork();
         TerrainManager.instance.CheckGrow();
         SceneLoader.instance.worldData = null;
     }
@@ -901,11 +878,7 @@ public class WorldMenager : MonoBehaviour
                 
             }
         }
-        else if (objToRemove == Obj.TransmissionTower)
-        {
-            ElectricityManager.instance.RemoveTT(GOToRemove.GetComponent<TransmissionTower>());
-        }
-        else if (objToRemove == Obj.SolarPanel1 || objToRemove == Obj.CombustionGenerator || objToRemove == Obj.SteamGenerator)
+        else if (objToRemove == Obj.WindTurbine1 || objToRemove == Obj.WindTurbine2 || objToRemove == Obj.CombustionGenerator || objToRemove == Obj.SteamGenerator)
         {
             ElectricityManager.instance.RemoveGenerator(GOToRemove.GetComponent<ElectricityUser>());
         }
@@ -923,6 +896,11 @@ public class WorldMenager : MonoBehaviour
             EnemyBaseControler EBC = parent.GetComponent<EnemyBaseControler>();
             if (EBC != null) { EBC.DisconnectBuilding(x, y); }
             else { Debug.Log("cant find parent"); }
+        }
+
+        if(GOToRemove.TryGetComponent(out TransmissionTower transmissionTower))
+        {
+            ElectricityManager.instance.RemoveTT(transmissionTower);
         }
 
         if (squares[x, y] == objToRemove) { squares[x, y] = Obj.None; }
@@ -1196,7 +1174,9 @@ public class WorldMenager : MonoBehaviour
                         posX,
                         posY,
                         WorldGrid.GetSquare(posX, posY).health,
-                        null
+                        null,
+                        0,
+                        -1
                         );
 
                     switch (obj)
@@ -1256,7 +1236,9 @@ public class WorldMenager : MonoBehaviour
                         objPos.x,
                         objPos.y,
                         WorldGrid.GetSquare(objPos.x, objPos.y).health,
-                        items
+                        items,
+                        platformSc.startTaskTime,
+                        platformSc.timeToEndCraft
                         );
 
                     //veribals

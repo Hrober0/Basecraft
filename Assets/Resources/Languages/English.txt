@@ -131,6 +131,7 @@ Obj.EndOfEnemy=SystemValue
 
 <Technologies>
 Tech.Dif=Different
+Tech.PlaceHolder=PlaceHolder
 Tech.DroneComunication=Drone communication
 Tech.Ballista=Basic defense
 Tech.GunTurret=Gun turret
@@ -236,6 +237,8 @@ TechDes.Wall1=Wall made out of stone. Provides mediocre protection against groun
 TechDes.Wall2=Wall made out of steel. Provides good protection against ground units.
 TechDes.Wall3=Wall that uses electricity as it’s defensive mechanism. Alone doesn’t provide any defensive value, however when powered it protects against air units with high efficiency.
 TechDes.TransmissionTower=Unlocks transmission tower. It allows transfer electricity for other devices.
+TechDes.WindTurbine1=The wooden wind turbine produces small amounts of electricity, from the wind. It is a basic building to power up other machines.
+TechDes.WindTurbine2=The iron wind turbine produces medium amounts of electricity, from the wind.
 TechDes.CombustionGenerator=Basic engine that allows generation of power at cost of fuel. Low efficiency and power generation.
 TechDes.SteamGenerator=Unlocks the steam generator. Allows generation of power by using heat. Mediocre efficiency and power generation.
 TechDes.SolarPanel1=Unlocks solar panels which can passively generate power. Harness the power of the sun.
@@ -293,7 +296,7 @@ ObjDes.ShieldGenerator=null
 ObjDes.Connector=Helps in transferring items between buildings. He doesn't accept items he can't forward.
 ObjDes.FastConnector=Helps in transferring items between buildings. He doesn't accept items he can't forward. Working much more efficiently than this basic version
 ObjDes.WindTurbine1=The wooden wind turbine produces small amounts of electricity, from the wind.
-ObjDes.WindTurbine2=The wooden wind turbine produces medium amounts of electricity, from the wind.
+ObjDes.WindTurbine2=The iron wind turbine produces medium amounts of electricity, from the wind.
 ObjDes.TransmissionTower=The transmission tower transfers energy to all buildings within range.
 ObjDes.Battery=Basic electricity power storage.
 ObjDes.SolarPanel1=The solar panel produces small amounts of electricity, from the sun.

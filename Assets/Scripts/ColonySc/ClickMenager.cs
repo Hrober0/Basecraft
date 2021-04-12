@@ -162,8 +162,11 @@ public class ClickMenager : MonoBehaviour
         //chose start place
         if (SceneLoader.instance.canChooseStartPlace) { GuiControler.instance.ShowChooseStartPlace(useObj); return; }
 
+        // transform
+        Transform useTrans = WorldMenager.instance.GetTransforOfObj(x, y);
+
         //set platform bahavior
-        if (AllRecipes.instance.IsItPlatform(useObj) && WorldMenager.instance.GetTransforOfObj(x, y).TryGetComponent(out PlatformBehavior tUsePBSc)) { usePBSc = tUsePBSc; }
+        if (AllRecipes.instance.IsItPlatform(useObj) && useTrans.TryGetComponent(out PlatformBehavior tUsePBSc)) { usePBSc = tUsePBSc; }
         else { usePBSc = null; }
 
         //platform opction gui
@@ -178,7 +181,7 @@ public class ClickMenager : MonoBehaviour
                 ShowRange(DS.GetTabPos(), range);
             }
         }
-        if (useObj == Obj.Ballista || useObj == Obj.GunTurret || useObj == Obj.LaserTurret || useObj == Obj.RocketTurret)
+        if (AllRecipes.instance.IsItTurret(useObj))
         {
             foreach (Vector3Int turr in WorldMenager.instance.TurretPos)
             {
@@ -197,12 +200,12 @@ public class ClickMenager : MonoBehaviour
                 }
             }
         }
-        else if (useObj == Obj.TransmissionTower)
+        else if (useTrans != null && useTrans.TryGetComponent(out TransmissionTower _))
         {
             int range = ElectricityManager.instance.tTRange;
-            foreach (TransmissionTower TS in ElectricityManager.instance.AllTransTowers)
+            foreach (TransmissionTower tTSc in ElectricityManager.instance.AllTransTowers)
             {
-                Vector2 pos = TS.transform.position;
+                Vector2 pos = tTSc.transform.position;
                 ShowRange(new Vector2Int((int)pos.x / 10, (int)pos.y / 10), range);
             }
         }
@@ -215,6 +218,7 @@ public class ClickMenager : MonoBehaviour
                 ShowRange(new Vector2Int(x, y), range);
             }
         }
+        
     }
     private void BuildObjectClick()
     {
@@ -551,7 +555,7 @@ public class ClickMenager : MonoBehaviour
             }
         }
         else if (AllRecipes.instance.IsItWall(obj)) { SetOpct(ObjectOpction.removeOn, true); }
-        else if (obj == Obj.TransmissionTower || obj == Obj.SolarPanel1) { SetOpct(ObjectOpction.removeOn, true); }
+        else if (obj == Obj.TransmissionTower || obj == Obj.WindTurbine1 || obj == Obj.WindTurbine2 || obj == Obj.SolarPanel1) { SetOpct(ObjectOpction.removeOn, true); }
         else if (obj == Obj.Connection1) { /*occupited square by connection*/ }
 
         if (obj == Obj.DroneStation && DronControler.instance.AllDS.Count <= 1) { SetOpct(ObjectOpction.removeOn, false); }
@@ -765,7 +769,7 @@ public class ClickMenager : MonoBehaviour
     }
     public void ClickAddItemsToPlatform()
     {
-        GuiControler.instance.CloseNowOpenGui();
+        GuiControler.instance.CloseNowOpenGui(false);
         GuiControler.instance.ShowStoragePanel();
         GuiControler.instance.SetOpenPanelsYPos();
     }

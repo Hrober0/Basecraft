@@ -2,7 +2,6 @@
 
 public class ElectricityUser : MonoBehaviour
 {
-    public float actEnergyPerSec = 0f;
     public float maxEnergyPerSec = 0f;
     public int x;
     public int y;

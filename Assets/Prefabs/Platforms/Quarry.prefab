@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3479893453028204468}
   - component: {fileID: 1872345584963750507}
-  - component: {fileID: 5880476295591000054}
   m_Layer: 0
   m_Name: MineRotor
   m_TagString: Untagged
@@ -82,25 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5880476295591000054
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2542047086402028189}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d2ae9a5a42a66bd4fb68b5aa697fa68c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8118118916106396880
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,8 +93,9 @@ GameObject:
   - component: {fileID: 7212062198231571501}
   - component: {fileID: 1633993915633960771}
   - component: {fileID: 4963576560748416762}
+  - component: {fileID: 6921424471288328090}
   m_Layer: 0
-  m_Name: Mine
+  m_Name: Quarry
   m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,12 +180,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeConectedIn: 1
   canBeConnectedOut: 1
-  canChangeFiltr: 1
   canGetRes: 1
   canDronesGetRes: 1
   keepAmountOfRequestedItems: 0
   working: 0
   startTaskTime: 0
+  timeToEndCraft: -1
   taskTime: 0
   usingGuiType: 2
   itemSendingType: 2
@@ -229,3 +210,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145c7d0e98ffb1c42af4db80c5faf678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotorTrans: {fileID: 3479893453028204468}
+  rotationSpeed: 50
+  needEnergy: 2
+--- !u!114 &6921424471288328090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8118118916106396880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a57a763c723629f46b4d4dba53676d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEnergyPerSec: 0
+  x: 0
+  y: 0
+  actCharge: 0
+  maxCharge: 0

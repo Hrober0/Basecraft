@@ -12,58 +12,60 @@ public class BuildMenager : MonoBehaviour
     }
 
     [Header("Buildings prefab to set")]
-    public GameObject ConstructionBuilding;
-    public GameObject DisasembleBuilding;
-    public GameObject RoadBorder;
+    [SerializeField] private GameObject ConstructionBuilding = null;
+    [SerializeField] private GameObject DisasembleBuilding = null;
+    [SerializeField] private GameObject RoadBorder = null;
 
-    public GameObject Connection1;
-    public GameObject Connection2;
-    public GameObject Connection3;
+    [SerializeField] private GameObject Connection1 = null;
+    [SerializeField] private GameObject Connection2 = null;
+    [SerializeField] private GameObject Connection3 = null;
 
-    public GameObject Warehouse;
-    public GameObject Warehouse2;
-    public GameObject WoodCuter;
-    public GameObject Quarry;
-    public GameObject Planter;
-    public GameObject Smelter;
-    public GameObject Crusher;
-    public GameObject Pump;
-    public GameObject Farm;
-    public GameObject ScrapHeap;
+    [SerializeField] private GameObject Warehouse = null;
+    [SerializeField] private GameObject Warehouse2 = null;
+    [SerializeField] private GameObject WoodCuter = null;
+    [SerializeField] private GameObject Quarry = null;
+    [SerializeField] private GameObject Planter = null;
+    [SerializeField] private GameObject Smelter = null;
+    [SerializeField] private GameObject Crusher = null;
+    [SerializeField] private GameObject Pump = null;
+    [SerializeField] private GameObject Farm = null;
+    [SerializeField] private GameObject ScrapHeap = null;
 
-    public GameObject Balista;
-    public GameObject GunTurret;
-    public GameObject LaserTurret;
-    public GameObject RocketTurret;
+    [SerializeField] private GameObject Balista = null;
+    [SerializeField] private GameObject GunTurret = null;
+    [SerializeField] private GameObject LaserTurret = null;
+    [SerializeField] private GameObject RocketTurret = null;
 
-    public GameObject Wall0;
-    public GameObject Wall0Connector;
-    public GameObject Wall1;
-    public GameObject Wall1Connector;
-    public GameObject Wall2;
-    public GameObject Wall2Connector;
-    public GameObject Wall3;
-    public GameObject Wall3Connector;
+    [SerializeField] private GameObject Wall0 = null;
+    [SerializeField] private GameObject Wall0Connector = null;
+    [SerializeField] private GameObject Wall1 = null;
+    [SerializeField] private GameObject Wall1Connector = null;
+    [SerializeField] private GameObject Wall2 = null;
+    [SerializeField] private GameObject Wall2Connector = null;
+    [SerializeField] private GameObject Wall3 = null;
+    [SerializeField] private GameObject Wall3Connector = null;
 
-    public GameObject BasicCrafter;
-    public GameObject Crafter;
-    public GameObject ChemicalPlant;
-    public GameObject DronStation;
+    [SerializeField] private GameObject BasicCrafter = null;
+    [SerializeField] private GameObject Crafter = null;
+    [SerializeField] private GameObject ChemicalPlant = null;
+    [SerializeField] private GameObject DronStation = null;
 
-    public GameObject Connector;
-    public GameObject FastConnector;
+    [SerializeField] private GameObject Connector = null;
+    [SerializeField] private GameObject FastConnector = null;
 
-    public GameObject TransmissionTower;
-    public GameObject CombustionGenerator;
-    public GameObject SteemGenerator;
-    public GameObject Battery1;
-    public GameObject SolarPanel1;
+    [SerializeField] private GameObject TransmissionTower = null;
+    [SerializeField] private GameObject WindTurbine1 = null;
+    [SerializeField] private GameObject WindTurbine2 = null;
+    [SerializeField] private GameObject CombustionGenerator = null;
+    [SerializeField] private GameObject SteemGenerator = null;
+    [SerializeField] private GameObject Battery1 = null;
+    [SerializeField] private GameObject SolarPanel1 = null;
 
-    public GameObject ElectricSmelter;
-    public GameObject Repairer;
+    [SerializeField] private GameObject ElectricSmelter = null;
+    [SerializeField] private GameObject Repairer = null;
 
-    public GameObject Launchpad;
-    public GameObject SpaceRequester;
+    [SerializeField] private GameObject Launchpad = null;
+    [SerializeField] private GameObject SpaceRequester = null;
 
     [Header("Platform item imaga prefab to set")]
     public GameObject PlatformItemImage;
@@ -434,12 +436,6 @@ public class BuildMenager : MonoBehaviour
             }
         }
 
-        //electricity
-        if (ObjTB == Obj.TransmissionTower)
-        {
-            ElectricityManager.instance.AddTT(NewObj.GetComponent<TransmissionTower>());
-        }
-
         void BuildConnection(Obj type, int sx, int sy, int ex, int ey)
         {
             if (!(type == Obj.Connection1 || type == Obj.Connection2 || type == Obj.Connection3)) { Debug.Log("ERROR! " + type + " isn't connection"); return; }
@@ -595,6 +591,8 @@ public class BuildMenager : MonoBehaviour
             case Obj.FastConnector: return FastConnector;
 
             case Obj.TransmissionTower: return TransmissionTower;
+            case Obj.WindTurbine1: return WindTurbine1;
+            case Obj.WindTurbine2: return WindTurbine2;
             case Obj.Battery: return Battery1;
             case Obj.CombustionGenerator: return CombustionGenerator;
             case Obj.SteamGenerator: return SteemGenerator;

@@ -51,19 +51,16 @@ public class SteemGenerator : MonoBehaviour
         //check fuel
         if (percRemFuel <= 0f)
         {
-            if (AvaTimeToUpdateFuel > WorldMenager.instance.worldTime)
-            {
-                PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return;
-            }
+            if (AvaTimeToUpdateFuel > WorldMenager.instance.worldTime) { PlatformB.working = false; return; }
             AvaTimeToUpdateFuel = WorldMenager.instance.worldTime + WorldMenager.instance.frequencyOfChecking;
             UpdateFuel();
-            if (percRemFuel <= 0f) { PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return; }
+            if (percRemFuel <= 0f) { PlatformB.working = false; return; }
         }
 
         //check water
         if (needWater)
         {
-            if(PlatformB.itemOnPlatform[(int)Res.BottleEmpty].qua >= 10) { PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return; }
+            if(PlatformB.itemOnPlatform[(int)Res.BottleEmpty].qua >= 10) { PlatformB.working = false; return; }
             if (percRemWater <= 0f)
             {
                 if (PlatformB.itemOnPlatform[(int)Res.BottleWater].qua > 0)
@@ -72,18 +69,17 @@ public class SteemGenerator : MonoBehaviour
                     PlatformB.AddItem(Res.BottleEmpty, 1);
                     percRemWater = 1f;
                 }
-                if (percRemWater <= 0f) { PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return; }
+                if (percRemWater <= 0f) { PlatformB.working = false; return; }
             }
         }
 
         //check energy
-        if (eleUSc.actCharge > eleUSc.maxCharge || eleUSc.maxCharge <= 0f) { PlatformB.working = false; eleUSc.actEnergyPerSec = 0f; return; }
+        if (eleUSc.actCharge > eleUSc.maxCharge || eleUSc.maxCharge <= 0f) { PlatformB.working = false; return; }
 
         //go
         float prodPercent = (1 - eleUSc.actCharge / eleUSc.maxCharge) * 2;
         if (prodPercent < 0.1f) { prodPercent = 0.1f; }
         else if (prodPercent > 1f) { prodPercent = 1f; }
-        eleUSc.actEnergyPerSec = prodPercent * production;
         float multiplayer = Time.deltaTime * prodPercent;
         eleUSc.actCharge += production * multiplayer;
         if (needWater)

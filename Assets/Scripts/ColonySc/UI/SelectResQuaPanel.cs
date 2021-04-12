@@ -33,6 +33,7 @@ public class SelectResQuaPanel : MonoBehaviour
 
         RectTransform rt = setResQuaPanelPanel.GetComponent<RectTransform>();
         int index = GuiControler.instance.GetCountOfNowOpenPanels() - 2;
+        if (index < 0) index = 0;
         float yPos = GuiControler.instance.GetUpPositionOfPanelIndexInNowOpenPanels(index);
         if (yPos < 0f) return;
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, yPos);

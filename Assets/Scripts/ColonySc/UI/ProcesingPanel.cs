@@ -46,18 +46,9 @@ public class ProcesingPanel : MonoBehaviour
     {
         if (updateProgrsBarOn)
         {
-            Obj useObj = GuiControler.instance.useObj;
             PlatformBehavior usePBSc = GuiControler.instance.usePBSc;
 
-            float per = -1f;
-            if (AllRecipes.instance.IsObjHaveCrafterNeedFuelSc(useObj))
-            {
-                per = (usePBSc.taskTime - useCrafterNeedFuelSc.timeToEndCraft) / usePBSc.taskTime;
-            }
-            else if (AllRecipes.instance.IsObjHaveCrafterNeedEnergySc(useObj))
-            {
-                per = (usePBSc.taskTime - useEleCrafterNeedEnergySc.timeToEndCraft) / usePBSc.taskTime;
-            }
+            float per = (usePBSc.taskTime - usePBSc.timeToEndCraft) / usePBSc.taskTime;
 
             if (usePBSc.working == false)
             {
@@ -386,27 +377,28 @@ public class ProcesingPanel : MonoBehaviour
             { ProcesingFuelImage.SetActive(false); }
             else
             {
+                int qua = GuiControler.instance.usePBSc.itemOnPlatform[(int)useCrafterNeedFuelSc.useFuel].qua;
+                if (qua < 0) qua = 0;
                 ProcesingFuelImage.SetActive(true);
                 ProcesingFuelImage.GetComponent<Image>().sprite = ImageLibrary.instance.GetResImage(useCrafterNeedFuelSc.useFuel);
-                ProcesingFuelImage.transform.Find("Text").GetComponent<Text>().text = GuiControler.instance.usePBSc.itemOnPlatform[(int)useCrafterNeedFuelSc.useFuel].qua.ToString();
+                ProcesingFuelImage.transform.Find("Text").GetComponent<Text>().text = qua.ToString();
             }
-        }
-        else if (AllRecipes.instance.IsObjHaveCrafterNeedEnergySc(useObj))
-        {
-            ProcesingFuelImage.SetActive(true);
-            ProcesingFuelImage.GetComponent<Image>().sprite = powerS;
-            ProcesingFuelImage.transform.Find("Text").GetComponent<Text>().text = "";
         }
 
         //update energy
         if (AllRecipes.instance.IsUsingEnergy(useObj))
         {
+            ProcesingFuelImage.SetActive(true);
+            ProcesingFuelImage.GetComponent<Image>().sprite = powerS;
+            ProcesingFuelImage.transform.Find("Text").GetComponent<Text>().text = "";
+
             ElectricityUser useEleUserSc = GuiControler.instance.useEleUserSc;
-            if (useEleUserSc == null) { ProcesingFuelSlider.value = 0f; }
+            if (useEleUserSc == null) 
+                ProcesingFuelSlider.value = 0f;
             else
             {
                 float percent = 0f;
-                if (useEleUserSc.maxCharge > 0f) { percent = useEleUserSc.actCharge / useEleUserSc.maxCharge; }
+                if (useEleUserSc.maxCharge > 0f) percent = useEleUserSc.actCharge / useEleUserSc.maxCharge;
                 ProcesingFuelSlider.value = percent;
             }
         }
