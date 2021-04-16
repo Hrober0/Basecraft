@@ -4070,8 +4070,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3758075644962359427}
   m_HandleRect: {fileID: 3758075644962359426}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0.5
+  m_Size: 0.74149764
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6877,7 +6877,7 @@ MonoBehaviour:
   thisTechnology: 41
   needTechnology: 28000000
   needItems:
-  - res: 2
+  - res: 13
     qua: 10
   - res: 10
     qua: 5
@@ -11779,8 +11779,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3758075645233380890}
   m_HandleRect: {fileID: 3758075645233380893}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0.50000083
+  m_Size: 0.5613458
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14412,8 +14412,8 @@ MonoBehaviour:
   thisTechnology: 64
   needTechnology: 3e00000029000000
   needItems:
-  - res: 13
-    qua: 25
+  - res: 15
+    qua: 15
   - res: 4
     qua: 10
   - res: 5
@@ -23516,8 +23516,8 @@ RectTransform:
   m_Father: {fileID: 3758075644340377526}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.12925118, y: 0}
+  m_AnchorMax: {x: 0.8707488, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -27336,8 +27336,8 @@ RectTransform:
   m_Father: {fileID: 3758075644479976637}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.21932746}
+  m_AnchorMax: {x: 1, y: 0.78067327}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -28054,7 +28054,7 @@ MonoBehaviour:
     qua: 15
   - res: 11
     qua: 12
-  - res: 11
+  - res: 16
     qua: 8
   - res: 6
     qua: 25
@@ -31144,13 +31144,13 @@ MonoBehaviour:
   thisTechnology: 29
   needTechnology: 1c000000
   needItems:
-  - res: 5
+  - res: 6
     qua: 35
   - res: 5
     qua: 50
   - res: 16
     qua: 40
-  - res: 11
+  - res: 12
     qua: 20
   discovered: 0
 --- !u!1 &3758075645435173797

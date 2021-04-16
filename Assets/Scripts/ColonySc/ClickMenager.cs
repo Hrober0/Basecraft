@@ -288,6 +288,14 @@ public class ClickMenager : MonoBehaviour
     }
     private void ConnectionClick()
     {
+        if (useObj == Obj.None)
+        {
+            GuiControler.instance.CloseNowOpenGui();
+            SetClickMode(ClickMode.Normal);
+            selectedFirstBuildingToBuildCon = false;
+            return;
+        }
+
         //if desnt click on platform
         if (AllRecipes.instance.IsItPlatform(useObj) == false)
         {

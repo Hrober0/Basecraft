@@ -38,15 +38,29 @@ class DSNetwork
     {
         availableOPSc = new List<ObjectPlan>();
         int rl = DronControler.instance.DSRange * DronControler.instance.DSRange;
-        foreach (ObjectPlan OPSc in DronControler.instance.GetAllOPSc)
+        List<ObjectPlan> objectPlans = DronControler.instance.GetAllOPSc;
+        int l = objectPlans.Count;
+        int r = 0;
+        for (int i = 0; i < l; i++)
         {
-            Vector2Int tar = OPSc.GetTabPos();
+            ObjectPlan oPSc = objectPlans[i - r];
+            if (oPSc == null)
+            {
+                objectPlans.RemoveAt(i - r);
+                r++;
+                continue;
+            }
+
+            Vector2Int tar = oPSc.GetTabPos();
             for (int n = 0; n < AllDSP.Count; n++)
             {
                 Vector3Int checDS = AllDSP[n];
                 //Debug.Log("cheking range otbx: " + tar.x + " otby: " + tar.y + " DS: " + checDS);
                 if ((tar.x - checDS.x) * (tar.x - checDS.x) + (tar.y - checDS.y) * (tar.y - checDS.y) <= rl)
-                { availableOPSc.Add(OPSc); break; }
+                {
+                    availableOPSc.Add(oPSc);
+                    break;
+                }
             }
         }
     }

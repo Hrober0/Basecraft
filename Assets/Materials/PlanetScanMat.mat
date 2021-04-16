@@ -48,7 +48,7 @@ Material:
     - Vector1_47B7E3B2: 0.651
     - Vector1_6B3AB285: 0.64
     - _EnableExternalAlpha: 0
-    - _Position: -0.9964396
+    - _Position: -0.99984133
     m_Colors:
     - Color_E8E36B67: {r: 0, g: 0.98039216, b: 0.22273554, a: 1}
     - ScanColor: {r: 0.1675526, g: 0.8962264, b: 0.0549573, a: 1}
