@@ -22,7 +22,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     [Header("Settings")]
-    public readonly string gameVersion = "0.7.2";
+    public readonly string gameVersion = "0.7.4";
 
     public void ReadAndSetAllSettings()
     {

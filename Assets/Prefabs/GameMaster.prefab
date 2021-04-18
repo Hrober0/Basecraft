@@ -14413,11 +14413,9 @@ MonoBehaviour:
   needTechnology: 3e00000029000000
   needItems:
   - res: 15
-    qua: 15
-  - res: 4
-    qua: 10
-  - res: 5
-    qua: 20
+    qua: 8
+  - res: 11
+    qua: 12
   discovered: 0
 --- !u!1 &3758075644456164724
 GameObject:
@@ -43251,7 +43249,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8017041894074943816}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87b40570f6124564385c7fb3dc9989c6, type: 3}
 --- !u!114 &5063884730832460990 stripped
@@ -43658,7 +43656,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8017041894074943816}
     - target: {fileID: 8242103772269794605, guid: 87b40570f6124564385c7fb3dc9989c6,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

@@ -861,7 +861,7 @@ public class AllRecipes : MonoBehaviour
             ),
             new BuildingRecipe(
                 Obj.Launchpad,
-                new List<ItemRAQ>{ new ItemRAQ(Res.StoneBrick, 12), new ItemRAQ(Res.Planks, 14), new ItemRAQ(Res.CopperPlate, 8), },
+                new List<ItemRAQ>{ new ItemRAQ(Res.CopperPlate, 6), new ItemRAQ(Res.StoneBrick, 5), new ItemRAQ(Res.Planks, 14), new ItemRAQ(Res.CopperCable, 4), },
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
                 new List<Res>{},
                 Technologies.Launchpad,

@@ -84,7 +84,7 @@ public class BuildPanel : MonoBehaviour
         bool militaryTabActive = false;
         bool energyTabActive = false;
         bool otherTabActive = false;
-
+        Debug.Log("Update tech");
         //building
         BuildObjButton.SetActive(false);
         foreach (Obj obj in AllRecipes.instance.ObjectThatCanBeBuilt)
@@ -98,7 +98,7 @@ public class BuildPanel : MonoBehaviour
             {
                 if (obj == Obj.BasicCrafter && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P1_12) == false) { continue; }
                 if (obj == Obj.Warehouse1 && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P2_2) == false) { continue; }
-                if (obj == Obj.Launchpad && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.NoMoreTask) == false) { continue; }
+                if (obj == Obj.Launchpad && GameEventControler.complateGameEvent.Contains(GameEventControler.GameEvent.P3_1) == false) { continue; }
             }
 
             Transform buttonParent = null;

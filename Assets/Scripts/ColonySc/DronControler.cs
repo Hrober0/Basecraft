@@ -164,7 +164,31 @@ public class DronControler : MonoBehaviour
         if (networkNumber < 0 || networkNumber >= AllDSNet.Count) { Debug.LogError("This network of drons does not exist!"); return; }
 
         DSNetwork checkedNetwork = AllDSNet[networkNumber];
-        
+
+        //Deliver item
+        foreach (PlatformBehavior pBSc in checkedNetwork.availablePBSc)
+        {
+            foreach (ItemRAQ item in pBSc.requestItems)
+            {
+                if (pBSc.keepAmountOfRequestedItems && pBSc.itemOnPlatform[(int)item.res].qua >= item.qua) continue;
+
+                int qua = checkedNetwork.GetQuaOfItems(item.res);
+                //Debug.Log("Checked " + item.res + " to deliver. In net: " + qua + " of ");
+
+                if (qua > 0)
+                {
+                    //send to deliver item
+                    Vector2Int pos = pBSc.GetTabPos();
+                    Transform FoundObjetTrans = FindAvaPlatWithItem(item.res, DBSc.transform.position.x, DBSc.transform.position.y, pos.x, pos.y, networkNumber, pBSc.transform);
+                    if (FoundObjetTrans == null) continue;
+
+                    //send dron
+                    DBSc.SetToDeliverItem(FoundObjetTrans, pBSc.transform, item.res);
+                    return;
+                }
+            }
+        }
+
         //Build or Disasemble
         for (int i = 0; i < BuildMenager.instance.BuildQueue.Count; i++)
         {
@@ -177,12 +201,12 @@ public class DronControler : MonoBehaviour
             {
                 Vector3Int checDS = checkedNetwork.AllDSP[n];
                 //Debug.Log("cheking range otbx: " + checkingOTB.xTB + " otby: " + checkingOTB.yTB + " DS: " + checDS);
-                if((checkingOTB.xTB-checDS.x)*(checkingOTB.xTB - checDS.x) + (checkingOTB.yTB - checDS.y)* (checkingOTB.yTB - checDS.y) <= rl) { found = true; break; }
+                if ((checkingOTB.xTB - checDS.x) * (checkingOTB.xTB - checDS.x) + (checkingOTB.yTB - checDS.y) * (checkingOTB.yTB - checDS.y) <= rl) { found = true; break; }
             }
-            if (found == false) { continue; }
+            if (found == false) continue;
 
             //dismental building
-            if (checkingOTB.planType==ObjectPlanType.Disasemble || checkingOTB.objectType==Obj.BuildingUnderDemolition || checkingOTB.objectType == Obj.ConUnderDemolition)
+            if (checkingOTB.planType == ObjectPlanType.Disasemble || checkingOTB.objectType == Obj.BuildingUnderDemolition || checkingOTB.objectType == Obj.ConUnderDemolition)
             {
                 for (int ii = 0; ii < checkingOTB.neededItems.Count; ii++)
                 {
@@ -198,7 +222,7 @@ public class DronControler : MonoBehaviour
                         if (uAPBSc.itemOnPlatform[resIndex].canIn) { foundP = true; break; }
                     }
                     if (foundP == false) { continue; }
-                    
+
                     checkingOTB.neededItems[ii].qua--;
 
                     //remove item from needItems (if is null)
@@ -229,14 +253,14 @@ public class DronControler : MonoBehaviour
             for (int ii = 0; ii < checkingOTB.neededItems.Count; ii++)
             {
                 Res needRes = checkingOTB.neededItems[ii].res;
-                if (checkedNetwork.GetQuaOfItems(needRes) <= 0) { continue; }
+                if (checkedNetwork.GetQuaOfItems(needRes) <= 0) continue;
 
                 //check avalible items
                 Transform FoundObjetTrans = FindAvaPlatWithItem(needRes, DBSc.transform.position.x, DBSc.transform.position.y, checkingOTB.xTB, checkingOTB.yTB, networkNumber);
-                if (FoundObjetTrans == null) { continue; }
+                if (FoundObjetTrans == null) continue;
 
                 //if put dow item to object plan than remove res from that need items
-                if(FoundObjetTrans.TryGetComponent(out ObjectPlan OPSc))
+                if (FoundObjetTrans.TryGetComponent(out ObjectPlan OPSc))
                 {
                     Vector2Int pos = OPSc.GetTabPos();
                     int index = BuildMenager.instance.GetIndexOfBuildQue(OPSc.objName, pos.x, pos.y, OPSc.startRoadPoint);
@@ -268,36 +292,11 @@ public class DronControler : MonoBehaviour
                 if (checkingOTB.neededItems[ii].qua <= 0) { checkingOTB.neededItems.RemoveAt(ii); }
 
                 //remove OTB from build que (if is null)
-                if (checkingOTB.neededItems.Count == 0) {  BuildMenager.instance.BuildQueue.Remove(checkingOTB); }
+                if (checkingOTB.neededItems.Count == 0) { BuildMenager.instance.BuildQueue.Remove(checkingOTB); }
 
                 //send dron
                 DBSc.SetToTakeItemToBuild(checkingOTB, FoundObjetTrans, checkingOTB.trans, needRes);
                 return;
-            }
-        }
-
-        //Deliver item
-        //Debug.Log("Deliver item");
-        foreach (PlatformBehavior pBSc in checkedNetwork.availablePBSc)
-        {
-            foreach (ItemRAQ item in pBSc.requestItems)
-            {
-                if (pBSc.keepAmountOfRequestedItems && pBSc.itemOnPlatform[(int)item.res].qua >= item.qua) { continue; }
-
-                int qua = checkedNetwork.GetQuaOfItems(item.res);
-                //Debug.Log("Checked " + item.res + " to deliver. In net: " + qua + " of ");
-
-                if (qua > 0)
-                {
-                    //send to deliver item
-                    Vector2Int pos = pBSc.GetTabPos();
-                    Transform FoundObjetTrans = FindAvaPlatWithItem(item.res, DBSc.transform.position.x, DBSc.transform.position.y, pos.x, pos.y, networkNumber, pBSc.transform);
-                    if (FoundObjetTrans == null) { continue; }
-
-                    //send dron
-                    DBSc.SetToDeliverItem(FoundObjetTrans, pBSc.transform, item.res);
-                    return;
-                }
             }
         }
     }
@@ -417,18 +416,19 @@ public class DronControler : MonoBehaviour
 
         if (res == Res.None) { Debug.Log("Error! Wrong request! Can try find platform with none res"); return null; }
 
-        if (AllDSNet[net].GetQuaOfItems(res) <= 0) { return null; }
+        if (AllDSNet[net].GetQuaOfItems(res) <= 0) return null;
 
         //distans to target
-        dx = tPosX - dronePosX; if (dx < 0) { dx *= -1; }
-        dy = tPosY - dronePosY; if (dy < 0) { dy *= -1; }
-        if (dx > dy) { dt = dx; }
-        else { dt = dy; }
+        dx = tPosX - dronePosX; if (dx < 0) dx *= -1;
+        dy = tPosY - dronePosY; if (dy < 0)  dy *= -1;
+        if (dx > dy)  
+            dt = dx;
+        else  
+            dt = dy;
 
         foreach (PlatformBehavior uAPBSc in AllDSNet[net].availablePBSc)
         {
             Vector2Int pos = uAPBSc.GetTabPos();
-            if (pos.x==tPosX && pos.y==tPosY) { continue; }
             switch (uAPBSc.itemSendingType)
             {
                 case PlatformItemSendingType.Storage:
@@ -444,7 +444,7 @@ public class DronControler : MonoBehaviour
         {
             foreach (ItemRAQ item in uAOPSc.keptItems)
             {
-                if (uAOPSc.planType != ObjectPlanType.Disasemble) { continue; }
+                if (uAOPSc.planType != ObjectPlanType.Disasemble) continue;
                 if (item.res == res)
                 {
                     if (item.qua > 0) { CheckAndSet(uAOPSc.GetTabPos(), uAOPSc.transform); }
