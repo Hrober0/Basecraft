@@ -98,6 +98,12 @@ public class ClickMenager : MonoBehaviour
             if (conLenght < 0f) { conLenght = 0f; }
             MoveingConnectionPointer.size = new Vector2(conLenght, MoveingConnectionPointer.size.y);
         }
+
+        if (Input.GetMouseButtonDown(1) && GuiControler.instance.GetCountOfNowOpenPanels() > 0)
+        {
+            HidePointers(true);
+            GuiControler.instance.CloseNowOpenGui();
+        }
     }
 
     //Click
@@ -456,11 +462,13 @@ public class ClickMenager : MonoBehaviour
         switch (ao)
         {
             case ActionPanel.ActionOpction.Mine:
+            case ActionPanel.ActionOpction.MasiveMine:
                 if (AllRecipes.instance.IsItOreObj(useTerrain))
                 {
                     Res res = GetResOfOre(useTerrain);
                     if (res == Res.None) break;
-                    BuildMenager.instance.AddMiningTask(useTerrain, res, x, y, 1);
+                    int qua = ao == ActionPanel.ActionOpction.MasiveMine ? 10 : 1;
+                    BuildMenager.instance.AddMiningTask(useTerrain, res, x, y, qua);
                     break;
                 }
                 GuiControler.instance.ActionPanelSc.ShowErrorOfPointer();

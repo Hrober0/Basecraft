@@ -18,7 +18,7 @@ public class ActionPanel : MonoBehaviour
     [SerializeField] private Color normalPColor = Color.white;
     [SerializeField] private Color errorPColor = Color.red;
 
-    public enum ActionOpction { None=0, Mine=1, Plant=2, Cut=3, Repair=4 }
+    public enum ActionOpction { None=0, Mine=1, MasiveMine=2, Plant=3, Cut=4, Repair=5 }
     public ActionOpction selectedOpction = ActionOpction.None;
     private Transform selectedButton = null;
     private float lastCameraScale = 0;
@@ -82,6 +82,7 @@ public class ActionPanel : MonoBehaviour
         selectedOpction = action;
         switch (action)
         {
+            case ActionOpction.MasiveMine:
             case ActionOpction.Mine:    PImage.sprite = minePImage;     break;
             case ActionOpction.Plant:   PImage.sprite = plantPImage;    break;
             case ActionOpction.Cut:     PImage.sprite = cutPImage;      break;

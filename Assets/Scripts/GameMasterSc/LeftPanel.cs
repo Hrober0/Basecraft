@@ -155,6 +155,19 @@ public class LeftPanel : MonoBehaviour
             DisactiveClosePanel();
         }
         timeToUpdateGui -= Time.unscaledDeltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            switch (SceneLoader.instance.gameMode)
+            {
+                case GameState.Colony:
+                    BackToMenu();
+                    break;
+                case GameState.SpaceStation:
+                    OpenConfirmPanelExit();
+                    break;
+            }
+        }
     }
 
     //open and close
