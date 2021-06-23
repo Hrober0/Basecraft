@@ -370,7 +370,8 @@ public class LeftPanel : MonoBehaviour
     public void QuitGame(bool saveGeneralData=true)
     {
         Debug.Log("Exiting..");
-        if (saveGeneralData) { SpaceBaseMainSc.instance.SaveGeneralData(); }
+        if (saveGeneralData) 
+            SpaceBaseMainSc.instance.SaveGeneralData();
         Application.Quit();
     }
 
@@ -507,16 +508,24 @@ public class LeftPanel : MonoBehaviour
 
         int maxSpace = SpaceBaseMainSc.instance.GetMaxEmptySpaceOfDumpster();
         int actItems = maxSpace - SpaceBaseMainSc.instance.GetFreeSpaceOfDumpster();
-        if (actItems <= 0) { actItems = 0; StorageNoItemIsDumpsterText.SetActive(true); }
-        else { StorageNoItemIsDumpsterText.SetActive(false); }
+
+        if (actItems <= 0)
+        { actItems = 0; StorageNoItemIsDumpsterText.SetActive(true); }
+        else
+            StorageNoItemIsDumpsterText.SetActive(false);
+
         DumpsterPanel.transform.Find("AvaSpaceText").GetComponent<Text>().text = string.Format("Item in dumpster: {0}/{1}", actItems, maxSpace);
         DumpsterPanel.transform.Find("TimeToRemoveText").GetComponent<Text>().text = string.Format("Removing item time: {0}s", SpaceBaseMainSc.instance.dumpsterItemRemovingTime);
-        if (SpaceBaseMainSc.instance.activeRemovingBar) {
+
+        if (SpaceBaseMainSc.instance.activeRemovingBar)
+        {
             float maxValue = SpaceBaseMainSc.instance.dumpsterItemRemovingTime;
-            DumpsterRemogingItemSlider.value = maxValue - SpaceBaseMainSc.instance.avaTimeToRemoveItem;
+            DumpsterRemogingItemSlider.value = maxValue - SpaceBaseMainSc.instance.timeToRemoveItem;
+            //Debug.Log(SpaceBaseMainSc.instance.timeToRemoveItem + "/" + maxValue);
             DumpsterRemogingItemSlider.maxValue = maxValue;
         }
-        else { DumpsterRemogingItemSlider.value = 0f; }
+        else 
+            DumpsterRemogingItemSlider.value = 0f;
 
         void CreateNewItem(Res res)
         {
@@ -563,6 +572,7 @@ public class LeftPanel : MonoBehaviour
                 break;
         }
     }
+
     //storage removing item panel
     private void OpenStorageRemoveItemPanel()
     {
@@ -642,7 +652,8 @@ public class LeftPanel : MonoBehaviour
     public void ClickStorageRemovingItemPanelConfirm()
     {
         StorageRemoveItemPanel.SetActive(false);
-        if (storageSelectValue == 0) { return; }
+        if (storageSelectValue == 0) 
+            return;
         
         if (storageSelectPage == 1)
         {

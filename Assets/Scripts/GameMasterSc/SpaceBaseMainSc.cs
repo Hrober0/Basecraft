@@ -102,7 +102,7 @@ public class SpaceBaseMainSc : MonoBehaviour
     [SerializeField] private int[] itemsInDumpster;
     public bool activeRemovingBar = false;
     public float dumpsterItemRemovingTime = 30f;
-    public float avaTimeToRemoveItem = 0f;
+    public float timeToRemoveItem = 0f;
 
     [Header("Technologies")]
     [SerializeField] private List<Technologies> discoveredTechnologies;
@@ -152,7 +152,9 @@ public class SpaceBaseMainSc : MonoBehaviour
 
         if (activeRemovingBar)
         {
-            if (avaTimeToRemoveItem < timer) { RemoveLastRes(); }
+            timeToRemoveItem -= Time.deltaTime;
+            if (timeToRemoveItem <= 0)
+                RemoveLastRes();
         }
 
         if (avaTimeToCheck < timer)
@@ -211,6 +213,7 @@ public class SpaceBaseMainSc : MonoBehaviour
     public void SaveGeneralData()
     {
         string date = System.DateTime.Now.ToLongTimeString() + " " + System.DateTime.Now.ToShortDateString();
+        Debug.Log("Saving general data");
         GeneralGameData generalGameData = new GeneralGameData(
             availableColonies.ToArray(),
             unlockedColonies.ToArray(),
@@ -362,17 +365,20 @@ public class SpaceBaseMainSc : MonoBehaviour
         if (itemsData == null) { Debug.Log("Dont found items file!"); return; }
 
         //storage
-        for (int i = 1; i < itemsData.itemsInStorage.Length; i++) { itemsInStorage[i] = itemsData.itemsInStorage[i]; }
+        for (int i = 1; i < itemsData.itemsInStorage.Length; i++)
+            itemsInStorage[i] = itemsData.itemsInStorage[i]; 
         SetMaxEmptySpaceInStorage(maxEmptySpaceInStorage);
 
         //dumpster
-        for (int i = 1; i < itemsData.itemsInDumpster.Length; i++) { itemsInDumpster[i] = itemsData.itemsInDumpster[i]; }
+        for (int i = 1; i < itemsData.itemsInDumpster.Length; i++)
+            itemsInDumpster[i] = itemsData.itemsInDumpster[i];
         SetMaxEmptySpaceInDumpster(maxEmptySpaceInDumpster);
 
         resToRemoveList = new List<Res>();
-        for (int i = 0; i < itemsData.resToRemoveList.Length; i++) { resToRemoveList.Add(itemsData.resToRemoveList[i]); }
+        for (int i = 0; i < itemsData.resToRemoveList.Length; i++)
+            resToRemoveList.Add(itemsData.resToRemoveList[i]); 
 
-        avaTimeToRemoveItem = itemsData.dumpsterTimeToRemoveItem;
+        timeToRemoveItem = itemsData.dumpsterTimeToRemoveItem;
         activeRemovingBar = itemsData.activeRemovingBar;
     }
     public void SaveItems()
@@ -382,7 +388,7 @@ public class SpaceBaseMainSc : MonoBehaviour
             itemsInStorage,
             itemsInDumpster,
             resToRemoveList.ToArray(),
-            avaTimeToRemoveItem,
+            timeToRemoveItem,
             activeRemovingBar
             );
 
@@ -414,7 +420,7 @@ public class SpaceBaseMainSc : MonoBehaviour
     private List<Res> resToRemoveList = new List<Res>();
     private void RemoveLastRes()
     {
-        avaTimeToRemoveItem = dumpsterItemRemovingTime + timer;
+        timeToRemoveItem = dumpsterItemRemovingTime;
 
         int missnumber = 0;
         int lenght = resToRemoveList.Count;
@@ -422,22 +428,36 @@ public class SpaceBaseMainSc : MonoBehaviour
         {
             int index = i - missnumber;
             Res res = resToRemoveList[index];
-            if (itemsInDumpster[(int)res] <= 0) { missnumber++; resToRemoveList.RemoveAt(index); }
+            if (itemsInDumpster[(int)res] <= 0)
+            {
+                missnumber++;
+                resToRemoveList.RemoveAt(index);
+            }
         }
 
-        if (resToRemoveList.Count == 0) { activeRemovingBar = false; return; }
+        if (resToRemoveList.Count == 0)
+        {
+            activeRemovingBar = false;
+            return;
+        }
 
         Res resTR = resToRemoveList[0];
         itemsInDumpster[(int)resTR]--;
         itemsInDumpster[0]++;
-        if (itemsInDumpster[(int)resTR] <= 0) { resToRemoveList.RemoveAt(0); }
+        if (itemsInDumpster[(int)resTR] <= 0)
+            resToRemoveList.RemoveAt(0);
+
+        if (resToRemoveList.Count == 0)
+            activeRemovingBar = false;
+
+        SaveItems();
     }
     private void SetToRemoveRes()
     {
         if (resToRemoveList.Count == 0) { activeRemovingBar = false; return; }
 
         activeRemovingBar = true;
-        avaTimeToRemoveItem = dumpsterItemRemovingTime;
+        timeToRemoveItem = dumpsterItemRemovingTime;
     }
     private void AddResToDumpster(Res res, int qua, bool save=true)
     {
@@ -450,19 +470,26 @@ public class SpaceBaseMainSc : MonoBehaviour
     {
         int resIndex = (int)res;
 
-        if (qua <= 0) { return false; }
-        if (itemsInStorage[resIndex] < qua) { return false; }
-        if (itemsInDumpster[0] < qua) { return false; }
+        if (qua <= 0) 
+            return false;
+
+        if (itemsInStorage[resIndex] < qua)
+            return false;
+
+        if (itemsInDumpster[0] < qua)
+            return false;
 
         AddResToStorage(res, -qua, false);
         AddResToDumpster(res, qua, false);
-        if (resToRemoveList.Contains(res) == false) { resToRemoveList.Add(res); }
+
+        if (resToRemoveList.Contains(res) == false)
+            resToRemoveList.Add(res);
 
         SaveItems();
 
-        if (activeRemovingBar==false)
+        if (activeRemovingBar == false)
         {
-            avaTimeToRemoveItem = dumpsterItemRemovingTime;
+            timeToRemoveItem = dumpsterItemRemovingTime;
             activeRemovingBar = true;
         }
         
@@ -472,12 +499,23 @@ public class SpaceBaseMainSc : MonoBehaviour
     {
         int resIndex = (int)res;
 
-        if (qua <= 0) { return false; }
-        if (itemsInStorage[0] < qua) { return false; }
-        if (itemsInDumpster[resIndex] < qua) { return false; }
+        if (qua <= 0) 
+            return false;
+
+        if (itemsInStorage[0] < qua)
+            return false;
+
+        if (itemsInDumpster[resIndex] < qua) 
+            return false;
 
         AddResToStorage(res, qua, false);
         AddResToDumpster(res, -qua, false);
+
+        if (itemsInDumpster[resIndex] <= 0)
+            resToRemoveList.Remove(res);
+
+        if (resToRemoveList.Count == 0)
+            activeRemovingBar = false;
 
         SaveItems();
 

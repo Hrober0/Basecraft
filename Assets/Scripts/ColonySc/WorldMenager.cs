@@ -327,8 +327,9 @@ public class WorldMenager : MonoBehaviour
             for (int i = 0; i < worldData.Buildings.platforms.Length; i++)
             {
                 BuildingsData.PlatformData platformD = worldData.Buildings.platforms[i];
-                if (platformD != null)
+                if (platformD != null && (Obj)platformD.obj != Obj.None)
                 {
+                    //Debug.Log("Loading " + (Obj)platformD.obj + " " + platformD.x + " " + platformD.y);
                     BuildMenager.instance.BuildObj((Obj)platformD.obj, platformD.x, platformD.y, null, new Vector2Int());
                     GameObject platformGO = GetTransforOfObj(platformD.x, platformD.y).gameObject;
                     PlatformBehavior platformSc = platformGO.GetComponent<PlatformBehavior>();
