@@ -898,10 +898,15 @@ public class LeftPanel : MonoBehaviour
         panelSize.y *= 0.5f * transform.lossyScale.y;
         Vector2 borderSize = new Vector2(Screen.width, Screen.height - 40f * transform.lossyScale.y);
         Vector2 Pos = techSc.gameObject.GetComponent<RectTransform>().position;
-        if (Pos.y > borderSize.y - panelSize.y) { Pos.y = borderSize.y - panelSize.y; }
-        else if (Pos.y < panelSize.y) { Pos.y = panelSize.y; }
-        if (Pos.x > borderSize.x / 2) { Pos.x -= panelSize.x; }
-        else { Pos.x += panelSize.x; }
+        
+        if (Pos.y > borderSize.y - panelSize.y)
+            Pos.y = borderSize.y - panelSize.y;
+        else if (Pos.y < panelSize.y) 
+            Pos.y = panelSize.y;
+
+        float xOffset = 30f;
+        Pos.x += Pos.x > borderSize.x / 2 ? - panelSize.x - xOffset : panelSize.x + xOffset;
+
         TechInfoPanel.transform.position = Pos;
     }
     public void MoveTechView(Vector2 move)
