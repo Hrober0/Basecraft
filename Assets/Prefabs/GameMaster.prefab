@@ -2916,7 +2916,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 83
   needTechnology: 42000000
-  needItems: []
+  needItems:
+  - res: 31
+    qua: 10
+  - res: 15
+    qua: 30
+  - res: 29
+    qua: 10
   discovered: 0
 --- !u!1 &3408175556553271124
 GameObject:
@@ -3753,7 +3759,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 46
   needTechnology: 380000002d000000
-  needItems: []
+  needItems:
+  - res: 24
+    qua: 5
+  - res: 38
+    qua: 10
+  - res: 34
+    qua: 18
   discovered: 0
 --- !u!1 &3758075643612263671
 GameObject:
@@ -4159,7 +4171,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 34
   needTechnology: 1d00000042000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 5
+  - res: 5
+    qua: 35
+  - res: 5
+    qua: 30
   discovered: 0
 --- !u!1 &3758075643662583482
 GameObject:
@@ -4609,7 +4627,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3758075644962359426}
   m_Direction: 0
   m_Value: 0.5
-  m_Size: 0.74149764
+  m_Size: 0.7414439
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5215,7 +5233,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 38
   needTechnology: 22000000
-  needItems: []
+  needItems:
+  - res: 31
+    qua: 20
+  - res: 20
+    qua: 30
   discovered: 0
 --- !u!1 &3758075643762248461
 GameObject:
@@ -5476,7 +5498,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 13
   needTechnology: 0c000000
-  needItems: []
+  needItems:
+  - res: 19
+    qua: 20
+  - res: 18
+    qua: 20
+  - res: 16
+    qua: 16
+  - res: 35
+    qua: 10
   discovered: 0
 --- !u!1 &3758075643769248638
 GameObject:
@@ -6214,7 +6244,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 66
   needTechnology: 39000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 16
+  - res: 25
+    qua: 10
   discovered: 0
 --- !u!1 &3758075643809654230
 GameObject:
@@ -6361,7 +6395,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 74
   needTechnology: 340000003f000000
-  needItems: []
+  needItems:
+  - res: 11
+    qua: 30
+  - res: 27
+    qua: 10
+  - res: 16
+    qua: 15
   discovered: 0
 --- !u!1 &3758075643811670996
 GameObject:
@@ -6586,7 +6626,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 58
   needTechnology: 37000000
-  needItems: []
+  needItems:
+  - res: 38
+    qua: 10
+  - res: 35
+    qua: 4
+  - res: 2
+    qua: 30
   discovered: 0
 --- !u!1 &3758075643816482403
 GameObject:
@@ -6733,7 +6779,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 82
   needTechnology: 
-  needItems: []
+  needItems:
+  - res: 18
+    qua: 80
+  - res: 12
+    qua: 40
+  - res: 16
+    qua: 16
   discovered: 1
 --- !u!1 &3758075643817180097
 GameObject:
@@ -7189,7 +7241,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 35
   needTechnology: 2200000031000000
-  needItems: []
+  needItems:
+  - res: 31
+    qua: 30
+  - res: 40
+    qua: 5
+  - res: 34
+    qua: 10
   discovered: 0
 --- !u!1 &3758075643849117948
 GameObject:
@@ -7456,7 +7514,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.0004789378}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 67}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3758075643852696181
 MonoBehaviour:
@@ -8058,7 +8116,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 55
   needTechnology: 36000000
-  needItems: []
+  needItems:
+  - res: 2
+    qua: 30
+  - res: 17
+    qua: 20
+  - res: 10
+    qua: 10
   discovered: 0
 --- !u!1 &3758075643896657475
 GameObject:
@@ -9084,7 +9148,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 15
   needTechnology: 0d000000
-  needItems: []
+  needItems:
+  - res: 41
+    qua: 10
+  - res: 10
+    qua: 30
+  - res: 17
+    qua: 10
   discovered: 0
 --- !u!1 &3758075643980632955
 GameObject:
@@ -9932,7 +10002,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 79
   needTechnology: 31000000
-  needItems: []
+  needItems:
+  - res: 41
+    qua: 30
+  - res: 42
+    qua: 50
   discovered: 0
 --- !u!1 &3758075644081361410
 GameObject:
@@ -11473,7 +11547,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 77
   needTechnology: 4a000000230000004c000000
-  needItems: []
+  needItems:
+  - res: 12
+    qua: 100
+  - res: 43
+    qua: 100
   discovered: 0
 --- !u!1 &3758075644180470444
 GameObject:
@@ -12317,8 +12395,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3758075645233380890}
   m_HandleRect: {fileID: 3758075645233380893}
   m_Direction: 2
-  m_Value: 0.50000083
-  m_Size: 0.5613458
+  m_Value: 0.5000007
+  m_Size: 0.561376
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12393,7 +12471,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12809,7 +12887,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 48
   needTechnology: 2d00000020000000
-  needItems: []
+  needItems:
+  - res: 2
+    qua: 12
+  - res: 8
+    qua: 10
+  - res: 15
+    qua: 40
   discovered: 0
 --- !u!1 &3758075644304509488
 GameObject:
@@ -13668,10 +13752,10 @@ RectTransform:
   m_Father: {fileID: 3758075645585740437}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 300, y: -15}
+  m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3758075644359472512
 CanvasRenderer:
@@ -14503,7 +14587,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 4
   needTechnology: 03000000
-  needItems: []
+  needItems:
+  - res: 32
+    qua: 18
+  - res: 17
+    qua: 49
+  - res: 19
+    qua: 10
   discovered: 0
 --- !u!1 &3758075644400745064
 GameObject:
@@ -14650,7 +14740,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 12
   needTechnology: 54000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 16
+  - res: 6
+    qua: 20
+  - res: 11
+    qua: 32
+  - res: 12
+    qua: 36
   discovered: 0
 --- !u!1 &3758075644406352944
 GameObject:
@@ -15560,7 +15658,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 80
   needTechnology: 4f0000004c0000004e000000
-  needItems: []
+  needItems:
+  - res: 42
+    qua: 100
+  - res: 43
+    qua: 50
   discovered: 0
 --- !u!1 &3758075644490178390
 GameObject:
@@ -16736,7 +16838,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 50
   needTechnology: 2d0000002a000000
-  needItems: []
+  needItems:
+  - res: 20
+    qua: 40
+  - res: 38
+    qua: 20
+  - res: 35
+    qua: 3
   discovered: 0
 --- !u!1 &3758075644558102771
 GameObject:
@@ -16883,7 +16991,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 31
   needTechnology: 1e000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 40
+  - res: 17
+    qua: 40
   discovered: 0
 --- !u!1 &3758075644565157313
 GameObject:
@@ -17030,7 +17142,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 7
   needTechnology: 06000000
-  needItems: []
+  needItems:
+  - res: 5
+    qua: 40
+  - res: 6
+    qua: 30
   discovered: 0
 --- !u!1 &3758075644567608097
 GameObject:
@@ -17177,7 +17293,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 32
   needTechnology: 1d000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 40
+  - res: 17
+    qua: 40
   discovered: 0
 --- !u!1 &3758075644575321821
 GameObject:
@@ -17778,7 +17898,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 47
   needTechnology: 2d000000
-  needItems: []
+  needItems:
+  - res: 35
+    qua: 4
+  - res: 21
+    qua: 20
+  - res: 17
+    qua: 20
   discovered: 0
 --- !u!1 &3758075644599291076
 GameObject:
@@ -19362,7 +19488,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 37
   needTechnology: 2c0000004c000000
-  needItems: []
+  needItems:
+  - res: 18
+    qua: 50
+  - res: 21
+    qua: 30
+  - res: 6
+    qua: 40
   discovered: 0
 --- !u!1 &3758075644687652401
 GameObject:
@@ -19661,7 +19793,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 5
   needTechnology: 03000000
-  needItems: []
+  needItems:
+  - res: 52
+    qua: 100
   discovered: 0
 --- !u!1 &3758075644704931356
 GameObject:
@@ -20842,7 +20976,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 14
   needTechnology: 0c000000
-  needItems: []
+  needItems:
+  - res: 17
+    qua: 20
+  - res: 32
+    qua: 40
+  - res: 11
+    qua: 50
   discovered: 0
 --- !u!1 &3758075644782749517
 GameObject:
@@ -22635,7 +22775,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 52
   needTechnology: 3a0000002e000000
-  needItems: []
+  needItems:
+  - res: 39
+    qua: 10
+  - res: 1
+    qua: 5
   discovered: 0
 --- !u!1 &3758075644892279169
 GameObject:
@@ -23789,7 +23933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3758075644950073636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24054,8 +24198,8 @@ RectTransform:
   m_Father: {fileID: 3758075644340377526}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.12925118, y: 0}
-  m_AnchorMax: {x: 0.8707488, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25558,7 +25702,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 3
   needTechnology: 02000000
-  needItems: []
+  needItems:
+  - res: 18
+    qua: 25
+  - res: 16
+    qua: 18
+  - res: 12
+    qua: 20
   discovered: 0
 --- !u!1 &3758075645087312829
 GameObject:
@@ -27266,10 +27416,10 @@ RectTransform:
   m_Father: {fileID: 3758075643852696183}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 38, y: -29}
+  m_SizeDelta: {x: 56, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3758075645200922550
 CanvasRenderer:
@@ -27693,7 +27843,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 57
   needTechnology: 37000000
-  needItems: []
+  needItems:
+  - res: 1
+    qua: 10
   discovered: 0
 --- !u!1 &3758075645230726977
 GameObject:
@@ -27840,7 +27992,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 45
   needTechnology: 2c0000004b000000
-  needItems: []
+  needItems:
+  - res: 34
+    qua: 30
+  - res: 18
+    qua: 20
+  - res: 10
+    qua: 16
   discovered: 0
 --- !u!1 &3758075645233380892
 GameObject:
@@ -27874,8 +28032,8 @@ RectTransform:
   m_Father: {fileID: 3758075644479976637}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.21932746}
-  m_AnchorMax: {x: 1, y: 0.78067327}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -28139,7 +28297,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 49
   needTechnology: 300000002e000000
-  needItems: []
+  needItems:
+  - res: 40
+    qua: 10
+  - res: 35
+    qua: 2
+  - res: 21
+    qua: 20
   discovered: 0
 --- !u!1 &3758075645252083832
 GameObject:
@@ -28841,10 +29005,10 @@ RectTransform:
   m_Father: {fileID: 3758075645585740437}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -15}
+  m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3758075645283553627
 CanvasRenderer:
@@ -29402,8 +29566,8 @@ MonoBehaviour:
     qua: 15
   - res: 5
     qua: 30
-  - res: 18
-    qua: 50
+  - res: 15
+    qua: 20
   discovered: 0
 --- !u!1 &3758075645313315032
 GameObject:
@@ -30009,7 +30173,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 78
   needTechnology: 5600000041000000
-  needItems: []
+  needItems:
+  - res: 19
+    qua: 30
+  - res: 17
+    qua: 30
+  - res: 15
+    qua: 36
   discovered: 0
 --- !u!1 &3758075645349174366
 GameObject:
@@ -30346,7 +30516,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 76
   needTechnology: 320000004b0000003d000000
-  needItems: []
+  needItems:
+  - res: 12
+    qua: 40
+  - res: 11
+    qua: 20
+  - res: 42
+    qua: 20
   discovered: 0
 --- !u!1 &3758075645356411026
 GameObject:
@@ -30645,7 +30821,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 56
   needTechnology: 37000000
-  needItems: []
+  needItems:
+  - res: 1
+    qua: 5
+  - res: 2
+    qua: 10
   discovered: 0
 --- !u!1 &3758075645382090463
 GameObject:
@@ -31313,7 +31493,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 67
   needTechnology: 26000000
-  needItems: []
+  needItems:
+  - res: 32
+    qua: 20
+  - res: 21
+    qua: 30
   discovered: 0
 --- !u!1 &3758075645428232024
 GameObject:
@@ -32088,7 +32272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3758075645467418384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33270,7 +33454,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 6
   needTechnology: 02000000
-  needItems: []
+  needItems:
+  - res: 4
+    qua: 20
+  - res: 6
+    qua: 25
   discovered: 0
 --- !u!1 &3758075645509993741
 GameObject:
@@ -33417,7 +33605,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 8
   needTechnology: 07000000
-  needItems: []
+  needItems:
+  - res: 30
+    qua: 20
+  - res: 18
+    qua: 40
   discovered: 0
 --- !u!1 &3758075645522233925
 GameObject:
@@ -33971,7 +34163,7 @@ MonoBehaviour:
   thisTechnology: 2
   needTechnology: 01000000
   needItems: []
-  discovered: 0
+  discovered: 1
 --- !u!1 &3758075645561053058
 GameObject:
   m_ObjectHideFlags: 0
@@ -35515,7 +35707,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 65
   needTechnology: 400000002b000000
-  needItems: []
+  needItems:
+  - res: 16
+    qua: 10
+  - res: 6
+    qua: 10
   discovered: 0
 --- !u!1 &3758075645690009141
 GameObject:
@@ -35736,7 +35932,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 9
   needTechnology: 08000000
-  needItems: []
+  needItems:
+  - res: 42
+    qua: 30
+  - res: 12
+    qua: 20
   discovered: 0
 --- !u!1 &3758075645727776492
 GameObject:
@@ -38637,7 +38837,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisTechnology: 86
   needTechnology: 3d00000041000000
-  needItems: []
+  needItems:
+  - res: 8
+    qua: 20
+  - res: 17
+    qua: 20
+  - res: 15
+    qua: 10
   discovered: 0
 --- !u!1 &6418783017600595830
 GameObject:
@@ -44105,7 +44311,7 @@ PrefabInstance:
     - target: {fileID: 8367839465000247062, guid: 491f5f9e39eced74ba8dcb08a9ca957d,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8367839465005761001, guid: 491f5f9e39eced74ba8dcb08a9ca957d,
         type: 3}
@@ -44295,7 +44501,7 @@ PrefabInstance:
     - target: {fileID: 8367839466514412287, guid: 491f5f9e39eced74ba8dcb08a9ca957d,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 491f5f9e39eced74ba8dcb08a9ca957d, type: 3}

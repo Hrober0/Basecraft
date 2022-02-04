@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4123,6 +4123,36 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3758075644962359426, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758075644962359426, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758075644962359426, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758075645233380893, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758075645233380893, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758075645233380893, guid: a43b332c685bde345939e71ae0854450,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3758075645603640233, guid: a43b332c685bde345939e71ae0854450,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -4206,12 +4236,12 @@ PrefabInstance:
     - target: {fileID: 8017041894074943822, guid: a43b332c685bde345939e71ae0854450,
         type: 3}
       propertyPath: CreativeModeOn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8017041894074943822, guid: a43b332c685bde345939e71ae0854450,
         type: 3}
       propertyPath: GetAllTechs
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a43b332c685bde345939e71ae0854450, type: 3}
