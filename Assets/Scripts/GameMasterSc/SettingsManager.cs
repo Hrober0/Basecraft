@@ -14,7 +14,8 @@ public class SettingsManager : MonoBehaviour
     public static SettingsManager instance;
     private void Awake()
     {
-        if (instance == null) { instance = this; }
+        if (instance == null) 
+            instance = this;
     }
     private void Start()
     {
@@ -22,7 +23,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     [Header("Settings")]
-    public readonly string gameVersion = "0.7.7";
+    public readonly string gameVersion = "0.7.8";
 
     public void ReadAndSetAllSettings()
     {
@@ -34,12 +35,15 @@ public class SettingsManager : MonoBehaviour
         SetSoundsVolume(GetSoundscVolume());
     }
 
-    private bool resImageInBuildingValue;
+    private bool? resImageInBuildingValue;
     public void SetResImageInBuilding(bool active)
     {
         resImageInBuildingValue = active;
 
-        if (active) { PlayerPrefs.SetInt(resImageInBuilding, 1); } else { PlayerPrefs.SetInt(resImageInBuilding, 0); }
+        if (active)
+            PlayerPrefs.SetInt(resImageInBuilding, 1);
+        else 
+            PlayerPrefs.SetInt(resImageInBuilding, 0);
 
         if (DronControler.instance != null)
         {
@@ -49,23 +53,21 @@ public class SettingsManager : MonoBehaviour
             }
         }
     }
-    private bool ReadResImageInBuilding()
+    private bool ReadResImageInBuilding() => PlayerPrefs.GetInt(resImageInBuilding, 1) == 1;
+    public bool GetResImageInBuilding()
     {
-        if (PlayerPrefs.GetInt(resImageInBuilding, 1) == 1) { return true; }
-        return false;
+        if (resImageInBuildingValue == null)
+            resImageInBuildingValue = ReadResImageInBuilding();
+
+        return resImageInBuildingValue.Value;
     }
-    public bool GetResImageInBuilding() => resImageInBuildingValue;
 
     public void SetFullscreen(bool active)
     {
         if (active) { PlayerPrefs.SetInt(fullscreen, 1); } else { PlayerPrefs.SetInt(fullscreen, 0); }
         Screen.fullScreen = active;
     }
-    public bool GetFullscreen()
-    {
-        if (PlayerPrefs.GetInt(fullscreen, 1) == 1) { return true; }
-        return false;
-    }
+    public bool GetFullscreen() => PlayerPrefs.GetInt(fullscreen, 1) == 1;
 
     public void SetAutoSaveFreq(int value)
     {
@@ -80,10 +82,7 @@ public class SettingsManager : MonoBehaviour
         }
         SpaceBaseMainSc.instance.colonyAutoSaveDelay = time;
     }
-    public int GetAutoSaveValue()
-    {
-        return PlayerPrefs.GetInt(autoSaveFreq, 2);
-    }
+    public int GetAutoSaveValue() => PlayerPrefs.GetInt(autoSaveFreq, 2);
 
     public void SetUsingLanguageFromInt(int value)
     {
@@ -121,18 +120,12 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat(musicVolume, volume);
         AudioManager.instance.SetMusicVolume(volume);
     }
-    public float GetMusicVolume()
-    {
-        return PlayerPrefs.GetFloat(musicVolume, 0.25f);
-    }
+    public float GetMusicVolume() => PlayerPrefs.GetFloat(musicVolume, 0.25f);
 
     public void SetSoundsVolume(float volume)
     {
         PlayerPrefs.SetFloat(soundsVolume, volume);
         AudioManager.instance.SetSoundsVolume(volume);
     }
-    public float GetSoundscVolume()
-    {
-        return PlayerPrefs.GetFloat(soundsVolume, 0.5f);
-    }
+    public float GetSoundscVolume() => PlayerPrefs.GetFloat(soundsVolume, 0.5f);
 }
