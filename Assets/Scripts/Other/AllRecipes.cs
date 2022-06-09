@@ -141,7 +141,7 @@ public class AllRecipes : MonoBehaviour
     private List<Obj> objectThatCanBeBuilt;
 
     //public bool[] GetUnlockRes { get => UnlockRes; }
-    private bool[] UnlockRes;
+    private bool[] unlockedRes;
 
     private List<BuildingRecipe> buildingProductionRecipes;
     private List<BuildingRecipe> buildingMilitaryRecipes;
@@ -185,6 +185,12 @@ public class AllRecipes : MonoBehaviour
                 new List<ItemRAQ> { new ItemRAQ(Res.IronRod, 1) },
                 6f,
                 Technologies.IronRod
+            ),
+            new CraftRecipe(
+                new List<ItemRAQ> { new ItemRAQ(Res.IronOre, 2), new ItemRAQ(Res.CopperCable, 2) },
+                new List<ItemRAQ> { new ItemRAQ(Res.Magnet, 1) },
+                6f,
+                Technologies.Magnet
             ),
             new CraftRecipe(
                 new List<ItemRAQ> { new ItemRAQ(Res.Wood, 2), new ItemRAQ(Res.StoneOre, 1) },
@@ -574,7 +580,7 @@ public class AllRecipes : MonoBehaviour
         };
 
         //Res
-        UnlockRes = new bool[Enum.GetNames(typeof(Res)).Length];
+        unlockedRes = new bool[Enum.GetNames(typeof(Res)).Length];
 
         //Building Recipes
         objectThatCanBeBuilt = new List<Obj>();
@@ -608,7 +614,7 @@ public class AllRecipes : MonoBehaviour
                 Obj.BasicCrafter,
                 new List<ItemRAQ>{ new ItemRAQ(Res.StoneBrick, 5), new ItemRAQ(Res.CopperPlate, 2), new ItemRAQ(Res.Wood, 4)},
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
-                new List<Res>{ Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.Quarrel, Res.GunMagazine },
+                new List<Res>{ Res.CompressedWood, Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.Magnet, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.Quarrel, Res.GunMagazine },
                 Technologies.BasicCrafter,
                 "Requirement: fuel\n-Health: " + GetMaxHelthOfObj(Obj.BasicCrafter)
             ),
@@ -649,7 +655,7 @@ public class AllRecipes : MonoBehaviour
                 Obj.Crafter,
                 new List<ItemRAQ>{ new ItemRAQ(Res.IronPlate, 6), new ItemRAQ(Res.IronGear, 4), new ItemRAQ(Res.WoodenCircuit, 3), new ItemRAQ(Res.ElectricEngine, 2)},
                 new List<Obj>{ Obj.None, Obj.TerrainFertile, Obj.StoneOre, Obj.CopperOre, Obj.IronOre, },
-                new List<Res>{ Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.PlasticCircuit, Res.Quarrel, Res.Quarrel2, Res.GunMagazine, Res.GunMagazine2, Res.Rocket, Res.Drone },
+                new List<Res>{ Res.CompressedWood, Res.Planks, Res.CopperCable, Res.WoodenCircuit, Res.IronGear, Res.Magnet, Res.ElectricEngine, Res.Bag, Res.BottleEmpty, Res.PlasticCircuit, Res.Quarrel, Res.Quarrel2, Res.GunMagazine, Res.GunMagazine2, Res.Rocket, Res.Drone, Res.InsulatedCable, Res.AdvancedCircuit },
                 Technologies.Crafter,
                 "-Power required: 3kW/s\n-Health: " + GetMaxHelthOfObj(Obj.Crafter)
             ),
@@ -967,9 +973,9 @@ public class AllRecipes : MonoBehaviour
     }
     public void ActUnlockRes()
     {
-        for (int i = 0; i < UnlockRes.Length; i++)
+        for (int i = 0; i < unlockedRes.Length; i++)
         {
-            UnlockRes[i] = IsUnlock((Res)i);
+            unlockedRes[i] = IsUnlock((Res)i);
         }
 
         bool IsUnlock(Res res)
@@ -980,6 +986,7 @@ public class AllRecipes : MonoBehaviour
                 case Res.None: return true;
                 case Res.Sapling:       unlockingTechnologies.Add(Technologies.DroneComunication); break;
                 case Res.Wood:          unlockingTechnologies.Add(Technologies.DroneComunication); break;
+                case Res.CompressedWood: unlockingTechnologies.Add(Technologies.CompressedWood); break;
                 case Res.Planks:        unlockingTechnologies.Add(Technologies.Planks); break;
                 case Res.StoneOre:      unlockingTechnologies.Add(Technologies.DroneComunication); break;
                 case Res.StoneBrick:    unlockingTechnologies.Add(Technologies.StoneBrick); break;
@@ -995,6 +1002,7 @@ public class AllRecipes : MonoBehaviour
                 case Res.IronGear:      unlockingTechnologies.Add(Technologies.IronGear); break;
                 case Res.IronRod:       unlockingTechnologies.Add(Technologies.IronRod); break;
                 case Res.Steel:         unlockingTechnologies.Add(Technologies.Steel); break;
+                case Res.Magnet:        unlockingTechnologies.Add(Technologies.Magnet); break;
                 case Res.Coal:          unlockingTechnologies.Add(Technologies.DroneComunication); break;
                 case Res.GraphiteRod:   unlockingTechnologies.Add(Technologies.GraphiteRod); break;
                 case Res.ElectricEngine:unlockingTechnologies.Add(Technologies.ElectricEngine); break;
@@ -1039,11 +1047,7 @@ public class AllRecipes : MonoBehaviour
             return false;
         }
     }
-    public bool IsResUnlock(Res res)
-    {
-        if (UnlockRes[(int)res]) { return true; }
-        return false;
-    }
+    public bool IsResUnlock(Res res) => unlockedRes[(int)res];
     public ConnectionRecipe GetConnectionRecipe(Obj _obj)
     {
         for (int i = 0; i < connectionRecipes.Count; i++)
