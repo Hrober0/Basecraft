@@ -1017,10 +1017,12 @@ public class LeftPanel : MonoBehaviour
         foreach (Transform child in GlossaryItemGroup)
         {
             Transform curtain = child.Find("Curtain");
-            if (curtain == null) { continue; }
+            if (curtain == null)
+                continue;
 
-            if (Enum.TryParse(child.name, out Res res) == false) { continue; }
-            
+            if (Enum.TryParse(child.name, out Res res) == false)
+                continue;
+
             if (AllRecipes.instance.IsResUnlock(res))
             {
                 Destroy(curtain.gameObject);
